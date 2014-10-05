@@ -43,17 +43,17 @@ public class GameController : MonoBehaviour
 										Instantiate (tile, position, Quaternion.Euler (new Vector3 (90, 0, 0)));
 										inventory.draggingTile = false;
 										inventory.draggedTile = null;
-								} else if (isRight ()) {
+								} else if (isRight (x, z)) {
 										// shiftLeft();
-										putTileBackInHand (string.Concat (x + 9, z - 1));
+										putTileBackInHand (string.Concat (x - 11, z - 1));
 										shiftLeft (z - 1);
-										Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), 0.5f, tileMap.tileSize * (z + 0.5f));
+										Vector3 position = new Vector3 (tileMap.tileSize * (x - 0.5f), 0.5f, tileMap.tileSize * (z + 0.5f));
 										GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-										tile.tag = string.Concat (x, z - 1);
+										tile.tag = string.Concat (x - 2, z - 1);
 										Instantiate (tile, position, Quaternion.Euler (new Vector3 (90, 0, 0)));
 										inventory.draggingTile = false;
-								} else if (isTop ()) {
-										putTileBackInHand (string.Concat (x + 9, z - 1));
+								} else if (isTop (x, z)) {
+										putTileBackInHand (string.Concat (x + 1, z - 11));
 										shiftDown (x - 1);
 										Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), 0.5f, tileMap.tileSize * (z + 0.5f));
 										GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
@@ -61,9 +61,9 @@ public class GameController : MonoBehaviour
 										Instantiate (tile, position, Quaternion.Euler (new Vector3 (90, 0, 0)));
 										inventory.draggingTile = false;
 										//shiftDown();
-								} else if (isBottom ()) {
+								} else if (isBottom (x, z)) {
 										//shiftUp();
-										putTileBackInHand (string.Concat (x + 9, z - 1));
+										putTileBackInHand (string.Concat (x + 1, z + 9));
 										shiftUp (x - 1);
 										Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), 0.5f, tileMap.tileSize * (z + 0.5f));
 										GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
@@ -107,7 +107,7 @@ public class GameController : MonoBehaviour
 
 		void shiftLeft (int y)
 		{
-				for (int x=0; x>board.size_x-1; x++) {
+				for (int x=1; x<board.size_x; x++) {
 						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 						Vector3 position = tile.transform.position;
 						tile.transform.position = new Vector3 (position.x - tileMap.tileSize, position.y, position.z);
@@ -144,10 +144,10 @@ public class GameController : MonoBehaviour
 		
 		}
 
-		bool isRight ()
+		bool isRight (int x, int y)
 		{
-				return false;
-
+				return (x == tileMap.size_x - 1 && y != 0 && y != tileMap.size_z - 1);
+		
 		}
 
 		bool isLeft (int x, int y)
@@ -156,15 +156,15 @@ public class GameController : MonoBehaviour
 
 		}
 
-		bool isTop ()
+		bool isTop (int x, int y)
 		{
-				return false;
+				return (y == tileMap.size_z - 1 && x != 0 && x != tileMap.size_x - 1);
 
 		}
 
-		bool isBottom ()
+		bool isBottom (int x, int y)
 		{
-				return false;
-
+				return (y == 0 && x != 0 && x != tileMap.size_x - 1);
+		
 		}
 }
