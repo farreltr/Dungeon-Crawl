@@ -38,8 +38,8 @@ public class Board : MonoBehaviour
 		{
 				board = new Tile[size_x, size_z];
 				Transform[] tiles = Resources.LoadAll<Transform> ("Tiles/Prefabs/");
-				for (int y=0; y < size_z; y++) {
-						for (int x=0; x < size_x; x++) {
+				for (int x=0; x < size_x; x++) {
+						for (int y=0; y < size_z; y++) {
 								Vector3 position = new Vector3 (x * tileSize + (tileSize * 1.5f), 0.5f, y * tileSize + (tileSize * 1.5f));
 								Transform tile = isCorner (x, y) ? Resources.Load<Transform> ("Tiles/Prefabs/cross-junction") : tiles [Random.Range (0, tiles.Length)];
 								Quaternion rotation = Quaternion.Euler (90, 0, 90 * (Random.Range (0, 3)));
