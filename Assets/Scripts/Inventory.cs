@@ -156,7 +156,7 @@ public class Inventory : MonoBehaviour
 	
 		void RotateTile (Tile tile)
 		{
-				//	tile.RotateTile ();
+				tile.Rotate ();
 		}
 	
 	

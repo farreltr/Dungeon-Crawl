@@ -69,7 +69,18 @@ public class Tile : Object
 
 		public Texture2D GetIcon ()
 		{
-				return icon;
+				return Resources.Load<Texture2D> ("Tiles/Sprites/" + getRotationString () + "/" + this.name);
+		}
+
+		string getRotationString ()
+		{
+				int rot = Mathf.FloorToInt (this.rotation.eulerAngles.y);
+				return string.Concat (rot, "-degree-rotation");
+		}
+
+		public void Rotate ()
+		{
+				this.rotation = Quaternion.Euler (new Vector3 (rotation.x, rotation.y + 90, rotation.z));
 		}
 
 
