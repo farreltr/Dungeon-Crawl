@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{857A8B55-ACD3-C931-6195-001636631AC5}</ProjectGuid>
+	<ProjectGuid>{973705DA-0705-2BEA-A81A-5CC32370AEB1}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,17 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Editor\Board.cs" />
-     <Compile Include="Assets\Editor\Inventory.cs" />
-     <Compile Include="Assets\Editor\Tile.cs" />
-     <Compile Include="Assets\Editor\TileDB.cs" />
-     <Compile Include="Assets\Editor\TileMap.cs" />
      <Compile Include="Assets\Editor\TileMapInspector.cs" />
-     <Compile Include="Assets\Editor\TileMapMouse.cs" />
-     <Compile Include="Assets\Editor\TileMouseOver.cs" />
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-vs.csproj">
+      <Project>{B1378C52-9B90-F829-0FED-CA20D7DD91D5}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
