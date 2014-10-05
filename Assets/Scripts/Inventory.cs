@@ -78,12 +78,12 @@ public class Inventory : MonoBehaviour
 														inventory [i] = new Tile ();
 														prevIdx = i;
 												}
-												if (e.type == EventType.mouseUp && draggingTile) {
-														inventory [prevIdx] = inventory [i];
-														inventory [i] = draggedTile;
-														draggingTile = false;
-														draggedTile = null;
-												}
+//												if (e.type == EventType.mouseUp && draggingTile) {
+//														inventory [prevIdx] = inventory [i];
+//														inventory [i] = draggedTile;
+//														draggingTile = false;
+//														draggedTile = null;
+//												}
 						
 												if (!draggingTile) {
 														CreateToolTip (tile);

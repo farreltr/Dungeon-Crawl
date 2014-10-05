@@ -46,7 +46,7 @@ public class Tile : Object
 		{
 				this.go = go;
 				this.name = go.name;
-				this.sprite = Resources.Load<Sprite> ("Tiles/Sprites/" + name);	
+				this.sprite = go.GetComponent<SpriteRenderer> ().sprite;
 				this.icon = this.sprite.texture;
 				this.type = getTileType (sprite.name);
 				this.rotation = go.rotation;
