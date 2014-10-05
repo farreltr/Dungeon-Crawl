@@ -63,11 +63,11 @@ public class GameController : MonoBehaviour
 										//shiftDown();
 								} else if (isBottom (x, z)) {
 										//shiftUp();
-										putTileBackInHand (string.Concat (x + 1, z + 9));
+										putTileBackInHand (string.Concat (x - 1, z + 9));
 										shiftUp (x - 1);
-										Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), 0.5f, tileMap.tileSize * (z + 0.5f));
+										Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), 0.5f, tileMap.tileSize * (z + 1.5f));
 										GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-										tile.tag = string.Concat (x, z - 1);
+										tile.tag = string.Concat (x - 1, z);
 										Instantiate (tile, position, Quaternion.Euler (new Vector3 (90, 0, 0)));
 										inventory.draggingTile = false;
 					
@@ -133,11 +133,11 @@ public class GameController : MonoBehaviour
 
 		void shiftUp (int x)
 		{
-				for (int y=0; y<board.size_z; y++) {
+				for (int y=board.size_z -2; y>-1; y--) {
 						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x, position.y, position.z - tileMap.tileSize);
-						tile.tag = string.Concat (x, y - 1);
+						tile.transform.position = new Vector3 (position.x, position.y, position.z + tileMap.tileSize);
+						tile.tag = string.Concat (x, y + 1);
 			
 				}
 		
