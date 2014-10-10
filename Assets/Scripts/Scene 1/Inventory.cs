@@ -24,6 +24,7 @@ public class Inventory : MonoBehaviour
 		public Event e;
 		private float tileWidth = 37.0f;
 		private float tileHeight = 37.0f;
+		private bool disabled = false;
 	
 		// Use this for initialization
 		void Start ()
@@ -50,19 +51,20 @@ public class Inventory : MonoBehaviour
 	
 		void OnGUI ()
 		{
-				tooltip = EMPTY_STRING;
-				GUI.skin = skin;
-				Rect boxRect = new Rect ((4 * Screen.width / 5) - 10, (1 * Screen.height / 6) - 10, tileWidth * 2f, tileHeight * 4.5f);
-				GUI.Box (boxRect, EMPTY_STRING);
-				DrawInventory ();		
-				if (draggingTile) {
-						GUI.DrawTexture (new Rect (Event.current.mousePosition.x, Event.current.mousePosition.y, tileWidth, tileHeight), draggedTile.GetIcon ());
+				if (!disabled) {
+						DrawInventory ();
 				}
+
+
 		
 		}
 	
 		public void DrawInventory ()
 		{
+				tooltip = EMPTY_STRING;
+				GUI.skin = skin;
+				Rect boxRect = new Rect ((4 * Screen.width / 5) - 10, (1 * Screen.height / 6) - 10, tileWidth * 2f, tileHeight * 4.5f);
+				GUI.Box (boxRect, EMPTY_STRING);
 		
 				e = Event.current;
 				int i = 0;
@@ -133,6 +135,9 @@ public class Inventory : MonoBehaviour
 						}
 			
 				}
+				if (draggingTile) {
+						GUI.DrawTexture (new Rect (Event.current.mousePosition.x, Event.current.mousePosition.y, tileWidth, tileHeight), draggedTile.GetIcon ());
+				}
 		}
 	
 		void CreateToolTip (Tile tile)
@@ -161,6 +166,12 @@ public class Inventory : MonoBehaviour
 		void RotateTile (Tile tile)
 		{
 				tile.Rotate ();
+		}
+
+		public void SetDisabled ()
+		{
+				disabled = true;
+
 		}
 	
 	

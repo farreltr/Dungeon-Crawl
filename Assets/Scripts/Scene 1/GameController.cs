@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 		private bool gameOver;
 		public GUIText restartText;
 		public GUIText gameOverText;
+
 		private static string EMPTY_STRING = "";
 	
 		void Start ()
@@ -23,6 +24,7 @@ public class GameController : MonoBehaviour
 				tileMap = GameObject.FindGameObjectWithTag ("Tile Map").GetComponent<TileMap> ();
 				inventory = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<Inventory> ();
 				board = GameObject.FindGameObjectWithTag ("Board").GetComponent<Board> ();
+				
 		}
 
 		// Update is called once per frame
@@ -191,7 +193,7 @@ public class GameController : MonoBehaviour
 
 		public void GameOver ()
 		{
-				gameOverText.text = "Game Over!";
+				//gameOverText.text = "Game Over!";
 				gameOver = true;
 				foreach (GameObject player in GameObject.FindGameObjectsWithTag ("Player")) {
 						PlayerController controller = player.GetComponent<PlayerController> ();
@@ -199,7 +201,9 @@ public class GameController : MonoBehaviour
 						if (controller != null) {
 								controller.Stop ();
 								if (controller.isWinner) {
-										gameOverText.text = controller.GetName () + " wins!";
+										//gameOverText.text = controller.GetName () + " wins!";
+										Instantiate (Resources.Load<GUITexture> ("End Screens/" + controller.GetName ()));
+										GameObject.FindGameObjectWithTag ("Inventory").GetComponent<Inventory> ().SetDisabled ();									
 
 								}
 						}
