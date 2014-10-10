@@ -11,15 +11,23 @@ public class Stairs : MonoBehaviour
 				foreach (GameObject staircase in stairs) {
 						GameObject s = (GameObject)Instantiate (staircase);
 						s.transform.parent = this.transform;
+
 						SpriteRenderer renderer = s.GetComponent<SpriteRenderer> ();
 						renderer.sortingLayerID = 6;
 						renderer.sortingOrder = 0;
-						s.AddComponent<StairsCollider> ();
-						BoxCollider2D collider = s.AddComponent<BoxCollider2D> ();
-						collider.size = new Vector2 (1.0f, 0.5f);
-						collider.center = new Vector2 (0.0f, -0.25f);
+
+                        BoxCollider2D boxCollider = s.AddComponent<BoxCollider2D>();
+                        boxCollider.size = new Vector2(1.0f, 0.5f);
+                        boxCollider.center = new Vector2(0.0f, -0.25f);
+                        boxCollider.isTrigger = true;
+
 						Rigidbody2D rigidbody = s.AddComponent<Rigidbody2D> ();
 						rigidbody.gravityScale = 0.0f;
+                        
+                        if (s.GetComponent<StairsCollider>() == null)
+                        {
+                            s.AddComponent<StairsCollider>();
+                        }
 				}
 		
 		}

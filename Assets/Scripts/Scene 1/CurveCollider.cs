@@ -29,55 +29,97 @@ public class CurveCollider : MonoBehaviour
 				//string colliderName = colliderObject.name.Replace ("(Clone)", "");
 				//string myName = this.gameObject.name.Replace ("(Clone)", "");
 				PlayerController playerController = collider.transform.GetComponent<PlayerController> ();
-				if (playerController != null) {									
-						Direction direction = getDirection (playerController.direction);
+				if (playerController != null) {			
+						int rotation = Mathf.RoundToInt (this.transform.eulerAngles.z);
+						Direction direction = getTurningDirection (playerController, rotation);
 						if (direction.Equals (Direction.RIGHT)) {
-								playerController.TurnRight ();
+								playerController.Turn45Right ();
 						} else if (direction.Equals (Direction.LEFT)) {
-								playerController.TurnLeft ();
+								//playerController.TurnLeft ();
+								playerController.Turn45Left ();
 					
 						}
 				}
 		}
 
-		Direction getDirection (Vector2 playerDirection)
+		Direction getTurningDirection (PlayerController playerController, int rotation)
 		{
-				float rotation = this.transform.rotation.x;
-				if (playerDirection.x == 1.0f) {
-						if (rotation == 180.0f) {
+				Vector2 direction = playerController.direction;
+				if (direction == PlayerController.RIGHT) {
+						if (rotation == 180) {
 								return Direction.RIGHT;
 						}
-						if (rotation == 270.0f) {
+						if (rotation == 90) {
 								return Direction.LEFT;
 						}
 
 				}
 
-				if (playerDirection.x == -1.0f) {
-						if (rotation == 0.0f) {
+				if (direction == PlayerController.RIGHT_UP) {
+						if (rotation == 180) {
 								return Direction.RIGHT;
 						}
-						if (rotation == 90.0f) {
+						if (rotation == 90) {
 								return Direction.LEFT;
 						}
 			
 				}
 
-				if (playerDirection.y == 1.0f) {
-						if (rotation == 90.0f) {
+				if (direction == PlayerController.RIGHT_DOWN) {
+						if (rotation == 180) {
 								return Direction.RIGHT;
 						}
-						if (rotation == 180.0f) {
+						if (rotation == 0) {
 								return Direction.LEFT;
 						}
 			
 				}
 
-				if (playerDirection.y == -1.0f) {
-						if (rotation == 0.0f) {
+				if (direction == PlayerController.LEFT) {
+						if (rotation == 0) {
+								return Direction.RIGHT;
+						}
+						if (rotation == 270) {
 								return Direction.LEFT;
 						}
-						if (rotation == 270.0f) {
+			
+				}
+
+				if (direction == PlayerController.LEFT_UP) {
+						if (rotation == 0) {
+								return Direction.RIGHT;
+						}
+						if (rotation == 180) {
+								return Direction.LEFT;
+						}
+			
+				}
+		
+				if (direction == PlayerController.LEFT_DOWN) {
+						if (rotation == 180) {
+								return Direction.RIGHT;
+						}
+						if (rotation == 0) {
+								return Direction.LEFT;
+						}
+			
+				}
+
+				if (direction == PlayerController.UP) {
+						if (rotation == 270) {
+								return Direction.RIGHT;
+						}
+						if (rotation == 180) {
+								return Direction.LEFT;
+						}
+			
+				}
+
+				if (direction == PlayerController.DOWN) {
+						if (rotation == 0) {
+								return Direction.LEFT;
+						}
+						if (rotation == 90) {
 								return Direction.RIGHT;
 						}
 			

@@ -11,10 +11,14 @@ public class PlayerController : MonoBehaviour
 		private float minY;
 		private float  maxY;
 		private float boundary = 20.0f;
-		private static Vector2 RIGHT = new Vector2 (1.0f, 0.0f);
-		private static Vector2 LEFT = new Vector2 (-1.0f, 0.0f);
-		private static Vector2 UP = new Vector2 (0.0f, 1.0f);
-		private static Vector2 DOWN = new Vector2 (0.0f, -1.0f);
+		public static Vector2 RIGHT = new Vector2 (1.0f, 0.0f);
+		public static Vector2 LEFT = new Vector2 (-1.0f, 0.0f);
+		public static Vector2 UP = new Vector2 (0.0f, 1.0f);
+		public static Vector2 DOWN = new Vector2 (0.0f, -1.0f);
+		public static Vector2 RIGHT_UP = new Vector2 (1.0f, 1.0f);
+		public static Vector2 LEFT_UP = new Vector2 (-1.0f, 1.0f);
+		public static Vector2 RIGHT_DOWN = new Vector2 (1.0f, -1.0f);
+		public static Vector2 LEFT_DOWN = new Vector2 (-1.0f, -1.0f);
  
 		void Start ()
 		{
@@ -103,6 +107,28 @@ public class PlayerController : MonoBehaviour
 				transform.Translate (direction);
 		}
 
+		public void Turn45Right ()
+		{
+				if (direction == RIGHT) {
+						direction = RIGHT_DOWN;
+				} else if (direction == LEFT) {
+						direction = LEFT_UP;
+				} else if (direction == UP) {
+						direction = RIGHT_UP;
+				} else if (direction == DOWN) {
+						direction = LEFT_DOWN;
+				} else if (direction == RIGHT_DOWN) {
+						direction = DOWN;
+				} else if (direction == LEFT_DOWN) {
+						direction = LEFT;
+				} else if (direction == RIGHT_UP) {
+						direction = RIGHT;
+				} else if (direction == LEFT_UP) {
+						direction = UP;
+				}
+				transform.Translate (direction);
+		}
+
 		public void TurnLeft ()
 		{
 				if (direction == RIGHT) {
@@ -117,5 +143,28 @@ public class PlayerController : MonoBehaviour
 				transform.Translate (direction);
 		
 		}
-	
+
+		public void Turn45Left ()
+		{
+
+				if (direction == RIGHT) {
+						direction = RIGHT_UP;
+				} else if (direction == LEFT) {
+						direction = LEFT_DOWN;
+				} else if (direction == UP) {
+						direction = LEFT_UP;
+				} else if (direction == DOWN) {
+						direction = RIGHT_DOWN;
+				} else if (direction == RIGHT_DOWN) {
+						direction = RIGHT;
+				} else if (direction == LEFT_DOWN) {
+						direction = DOWN;
+				} else if (direction == RIGHT_UP) {
+						direction = UP;
+				} else if (direction == LEFT_UP) {
+						direction = LEFT;
+				}
+				transform.Translate (direction);
+		
+		}
 }

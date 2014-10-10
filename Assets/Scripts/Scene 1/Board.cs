@@ -30,7 +30,7 @@ public class Board : MonoBehaviour
 						for (int y=0; y < size_z; y++) {
 								Vector3 position = new Vector3 (x * tileSize + (tileSize * 1.5f), y * tileSize + (tileSize * 1.5f), 0);
 								GameObject tile = isCorner (x, y) ? Resources.Load<GameObject> ("Tiles/Prefabs/cross-junction") : tiles [Random.Range (0, tiles.Length)];
-								Quaternion rotation = Quaternion.Euler (0, 0, 90 * (Random.Range (0, 3)));
+								Quaternion rotation = Quaternion.Euler (0, 0, 90 * (Random.Range (0, 4)));
 								tile.tag = string.Concat (x.ToString (), y.ToString ());
 								GameObject tileClone = (GameObject)Instantiate (tile, position, rotation);
 								tileClone.transform.parent = this.gameObject.transform;

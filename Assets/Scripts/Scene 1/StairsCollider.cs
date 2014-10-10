@@ -10,10 +10,6 @@ public class StairsCollider : MonoBehaviour
 		void Start ()
 		{
 				controller = GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ();
-				BoxCollider2D boxCollider = transform.gameObject.AddComponent<BoxCollider2D> ();	
-				boxCollider.size = new Vector2 (1.0f, 0.5f);
-				boxCollider.center = new Vector2 (0.0f, -0.25f);
-				boxCollider.isTrigger = true;
 	
 		}
 	
@@ -31,8 +27,9 @@ public class StairsCollider : MonoBehaviour
 				if (myName == colliderName) {
 						controller.GameOver ();
 				} else {
-						if (isKnight (colliderName)) {
-								collider.transform.GetComponent<PlayerController> ().ChangeDirection ();
+						PlayerController controller = colliderObject.transform.GetComponent<PlayerController> ();
+						if (controller != null) {
+								controller.ChangeDirection ();
 						}
 				
 				}
