@@ -16,6 +16,7 @@ public class Knights : MonoBehaviour
 						rb.gravityScale = 0.0f;
 						rb.fixedAngle = true;
 						rb.angularDrag = 0.0f;
+						rb.isKinematic = false;
 				}
 	
 		}

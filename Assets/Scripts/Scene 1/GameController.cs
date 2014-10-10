@@ -8,10 +8,18 @@ public class GameController : MonoBehaviour
 		Inventory inventory;
 		Board board;	
 		Vector3 currentTileCoord;	
-		public Transform selectionCube;
+		private bool restart;
+		private bool gameOver;
+		public GUIText restartText;
+		public GUIText gameOverText;
+		private static string EMPTY_STRING = "";
 	
 		void Start ()
 		{
+				gameOver = false;
+				restart = false;
+				restartText.text = EMPTY_STRING;
+				gameOverText.text = EMPTY_STRING;
 				tileMap = GameObject.FindGameObjectWithTag ("Tile Map").GetComponent<TileMap> ();
 				inventory = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<Inventory> ();
 				board = GameObject.FindGameObjectWithTag ("Board").GetComponent<Board> ();
@@ -20,6 +28,9 @@ public class GameController : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
+				CheckRestart ();
+
+
 				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 				RaycastHit hitInfo;
 		
@@ -30,7 +41,6 @@ public class GameController : MonoBehaviour
 			
 						currentTileCoord.x = x;
 						currentTileCoord.y = y;
-						print ("x: " + x + ", y : " + y);
 
 						if (inventory.e != null && inventory.e.type == EventType.mouseUp && inventory.draggingTile) {
 								if (isLeft (x, y)) {
@@ -78,12 +88,22 @@ public class GameController : MonoBehaviour
 				}
 		}
 
+		void CheckRestart ()
+		{
+				if (restart) {
+						if (Input.GetKeyDown (KeyCode.R)) {
+								Application.LoadLevel (Application.loadedLevel);
+						}
+				}
+		}
+
 		void putTileBackInHand (string tileIdx)
 		{
 				GameObject[] go = GameObject.FindGameObjectsWithTag (tileIdx);
 				if (go.Length == 1) {
 						string cloneString = go [0].transform.name;
 						GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + cloneString.Replace ("(Clone)", ""));
+						//tile.transform.localEulerAngles = go [0].transform.localEulerAngles;
 						tile.transform.rotation = go [0].transform.rotation;			
 						inventory.inventory [inventory.prevIdx] = new Tile (tile);
 						Destroy (go [0]);
@@ -167,5 +187,12 @@ public class GameController : MonoBehaviour
 		{
 				return (y == 0 && x != 0 && x != tileMap.size_x - 1);
 		
+		}
+
+		public void GameOver ()
+		{
+				gameOverText.text = "Game Over!";
+				gameOver = true;
+
 		}
 }

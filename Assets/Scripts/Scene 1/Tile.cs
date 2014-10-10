@@ -49,6 +49,7 @@ public class Tile : Object
 				this.sprite = go.GetComponent<SpriteRenderer> ().sprite;
 				this.icon = this.sprite.texture;
 				this.type = getTileType (sprite.name);
+				//this.rotation = Quaternion.Euler (go.transform.localEulerAngles);
 				this.rotation = go.transform.rotation;
 					
 		} 
@@ -74,13 +75,13 @@ public class Tile : Object
 
 		string getRotationString ()
 		{
-				int rot = Mathf.FloorToInt (this.rotation.eulerAngles.y);
+				int rot = Mathf.FloorToInt (this.rotation.eulerAngles.z);
 				return string.Concat (rot, "-degree-rotation");
 		}
 
 		public void Rotate ()
 		{
-				this.rotation = Quaternion.Euler (new Vector3 (rotation.x, rotation.y + 90, rotation.z));
+				this.rotation = Quaternion.Euler (new Vector3 (rotation.x, rotation.y, rotation.z + 90));
 		}
 
 

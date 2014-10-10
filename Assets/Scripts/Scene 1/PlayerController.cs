@@ -11,19 +11,24 @@ public class PlayerController : MonoBehaviour
 		private float minY;
 		private float  maxY;
 		private float boundary = 20.0f;
+		private static Vector2 RIGHT = new Vector2 (1.0f, 0.0f);
+		private static Vector2 LEFT = new Vector2 (-1.0f, 0.0f);
+		private static Vector2 UP = new Vector2 (0.0f, 1.0f);
+		private static Vector2 DOWN = new Vector2 (0.0f, -1.0f);
  
-		// Use this for initialization
 		void Start ()
 		{
-				//instantiate sprites and place them on the tile Map?
 				animator = this.GetComponent<Animator> ();
-				//tileMap = this.GetComponentInParent<TileMap> ();
+				SetUpBoundaries ();
+		}
+
+		void SetUpBoundaries ()
+		{
 				tileMap = GameObject.FindGameObjectWithTag ("Tile Map").GetComponent<TileMap> ();
-				maxX = tileMap.transform.position.x + tileMap.tileSize + boundary;
-				minX = tileMap.transform.position.x + (tileMap.size_x - 1) * tileMap.tileSize + boundary;
-				maxY = tileMap.transform.position.y + (tileMap.size_z - 1) * tileMap.tileSize + boundary;
+				minX = tileMap.transform.position.x + tileMap.tileSize + boundary;
+				maxX = tileMap.transform.position.x + (tileMap.size_x - 1) * tileMap.tileSize + boundary;
 				minY = tileMap.transform.position.y + tileMap.tileSize + boundary;
-				//maxX = tileMap.transform.
+				maxY = tileMap.transform.position.y + (tileMap.size_z - 1) * tileMap.tileSize + boundary;
 		}
  
 		// Update is called once per frame
@@ -32,10 +37,11 @@ public class PlayerController : MonoBehaviour
 				Vector3 movement = new Vector3 (speed.x * direction.x, speed.y * direction.y, 0);
 				movement *= Time.deltaTime;
 				transform.Translate (movement);
+				SetDirection ();
 				OutOfbounds ();
 		}
 
-		void setDirection ()
+		void SetDirection ()
 		{
 				if (direction.y > 0) {
 						animator.SetInteger ("Direction", 2);
@@ -53,7 +59,20 @@ public class PlayerController : MonoBehaviour
 
 		void OnCollisionEnter2D (Collision2D collision)
 		{
-				direction = new Vector2 (-direction.x, -direction.y);
+				ChangeDirection ();
+		}
+
+		public void ChangeDirection ()
+		{
+				if (direction == RIGHT) {
+						direction = LEFT;
+				} else if (direction == LEFT) {
+						direction = RIGHT;
+				} else if (direction == UP) {
+						direction = DOWN;
+				} else if (direction == DOWN) {
+						direction = UP;
+				}		
 				transform.Translate (direction);
 		}
 	
@@ -61,15 +80,42 @@ public class PlayerController : MonoBehaviour
 		void OutOfbounds ()
 		{
 				if (transform.position.x < minX || transform.position.x > maxX) {
-						direction = new Vector2 (-direction.x, direction.y);
-						transform.Translate (direction);
+						ChangeDirection ();
 				}
 		
 				if (transform.position.y < minY || transform.position.y > maxY) {
-						direction = new Vector2 (direction.x, -direction.y);
-						transform.Translate (direction);
+						ChangeDirection ();
 				}
 		
 		}
 
+		public void TurnRight ()
+		{
+				if (direction == RIGHT) {
+						direction = DOWN;
+				} else if (direction == LEFT) {
+						direction = UP;
+				} else if (direction == UP) {
+						direction = RIGHT;
+				} else if (direction == DOWN) {
+						direction = LEFT;
+				}		
+				transform.Translate (direction);
+		}
+
+		public void TurnLeft ()
+		{
+				if (direction == RIGHT) {
+						direction = UP;
+				} else if (direction == LEFT) {
+						direction = DOWN;
+				} else if (direction == UP) {
+						direction = LEFT;
+				} else if (direction == DOWN) {
+						direction = RIGHT;
+				}		
+				transform.Translate (direction);
+		
+		}
+	
 }
