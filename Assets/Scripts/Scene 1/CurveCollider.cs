@@ -26,8 +26,6 @@ public class CurveCollider : MonoBehaviour
 		void OnTriggerEnter2D (Collider2D collider)
 		{
 				GameObject colliderObject = collider.attachedRigidbody.gameObject;
-				//string colliderName = colliderObject.name.Replace ("(Clone)", "");
-				//string myName = this.gameObject.name.Replace ("(Clone)", "");
 				PlayerController playerController = collider.transform.GetComponent<PlayerController> ();
 				if (playerController != null) {			
 						int rotation = Mathf.RoundToInt (this.transform.eulerAngles.z);
@@ -56,7 +54,7 @@ public class CurveCollider : MonoBehaviour
 				}
 
 				if (direction == PlayerController.RIGHT_UP) {
-						if (rotation == 180) {
+						if (rotation == 270) {
 								return Direction.RIGHT;
 						}
 						if (rotation == 90) {
@@ -99,7 +97,7 @@ public class CurveCollider : MonoBehaviour
 						if (rotation == 180) {
 								return Direction.RIGHT;
 						}
-						if (rotation == 0) {
+						if (rotation == 270) {
 								return Direction.LEFT;
 						}
 			

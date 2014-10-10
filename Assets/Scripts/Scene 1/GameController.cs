@@ -28,62 +28,68 @@ public class GameController : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-				CheckRestart ();
+				if (gameOver) {
+						//display winner
+						//destroy all objects
+
+				} else {
+						CheckRestart ();
 
 
-				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-				RaycastHit hitInfo;
+						Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+						RaycastHit hitInfo;
 		
-				if (tileMap.collider.Raycast (ray, out hitInfo, Mathf.Infinity)) {
-						int x = Mathf.FloorToInt (hitInfo.point.x / tileMap.tileSize);
-						int y = Mathf.FloorToInt (hitInfo.point.y / tileMap.tileSize);
-						//Debug.Log ("Tile: " + x + ", " + y);
+						if (tileMap.collider.Raycast (ray, out hitInfo, Mathf.Infinity)) {
+								int x = Mathf.FloorToInt (hitInfo.point.x / tileMap.tileSize);
+								int y = Mathf.FloorToInt (hitInfo.point.y / tileMap.tileSize);
+								//Debug.Log ("Tile: " + x + ", " + y);
 			
-						currentTileCoord.x = x;
-						currentTileCoord.y = y;
+								currentTileCoord.x = x;
+								currentTileCoord.y = y;
 
-						if (inventory.e != null && inventory.e.type == EventType.mouseUp && inventory.draggingTile) {
-								if (isLeft (x, y)) {
-										// create tile index string
-										putTileBackInHand (string.Concat (x + board.size_x - 1, y - 1));
-										shiftRight (y - 1);
-										Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
-										GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-										tile.tag = string.Concat (x, y - 1);
-										Instantiate (tile, position, inventory.draggedTile.rotation);
-										inventory.draggingTile = false;
-										inventory.draggedTile = null;
-								} else if (isRight (x, y)) {
-										// shiftLeft();
-										putTileBackInHand (string.Concat (x - board.size_x - 1, y - 1));
-										shiftLeft (y - 1);
-										Vector3 position = new Vector3 (tileMap.tileSize * (x - 0.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
-										GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-										tile.tag = string.Concat (x - 2, y - 1);
-										Instantiate (tile, position, inventory.draggedTile.rotation);
-										inventory.draggingTile = false;
-								} else if (isTop (x, y)) {
-										putTileBackInHand (string.Concat (x - 1, y - board.size_z - 1));
-										shiftDown (x - 1);
-										Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y - 0.5f), 0.5f);
-										GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-										tile.tag = string.Concat (x - 1, y - 2);
-										Instantiate (tile, position, inventory.draggedTile.rotation);
-										inventory.draggingTile = false;
-										//shiftDown();
-								} else if (isBottom (x, y)) {
-										//shiftUp();
-										putTileBackInHand (string.Concat (x - 1, y + board.size_z - 1));
-										shiftUp (x - 1);
-										Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y + 1.5f), 0.5f);
-										GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);									
-										tile.tag = string.Concat (x - 1, y);
-										Instantiate (tile, position, inventory.draggedTile.rotation);
-										inventory.draggingTile = false;
+								if (inventory.e != null && inventory.e.type == EventType.mouseUp && inventory.draggingTile) {
+										if (isLeft (x, y)) {
+												// create tile index string
+												putTileBackInHand (string.Concat (x + board.size_x - 1, y - 1));
+												shiftRight (y - 1);
+												Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
+												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
+												tile.tag = string.Concat (x, y - 1);
+												Instantiate (tile, position, inventory.draggedTile.rotation);
+												inventory.draggingTile = false;
+												inventory.draggedTile = null;
+										} else if (isRight (x, y)) {
+												// shiftLeft();
+												putTileBackInHand (string.Concat (x - board.size_x - 1, y - 1));
+												shiftLeft (y - 1);
+												Vector3 position = new Vector3 (tileMap.tileSize * (x - 0.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
+												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
+												tile.tag = string.Concat (x - 2, y - 1);
+												Instantiate (tile, position, inventory.draggedTile.rotation);
+												inventory.draggingTile = false;
+										} else if (isTop (x, y)) {
+												putTileBackInHand (string.Concat (x - 1, y - board.size_z - 1));
+												shiftDown (x - 1);
+												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y - 0.5f), 0.5f);
+												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
+												tile.tag = string.Concat (x - 1, y - 2);
+												Instantiate (tile, position, inventory.draggedTile.rotation);
+												inventory.draggingTile = false;
+												//shiftDown();
+										} else if (isBottom (x, y)) {
+												//shiftUp();
+												putTileBackInHand (string.Concat (x - 1, y + board.size_z - 1));
+												shiftUp (x - 1);
+												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y + 1.5f), 0.5f);
+												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);									
+												tile.tag = string.Concat (x - 1, y);
+												Instantiate (tile, position, inventory.draggedTile.rotation);
+												inventory.draggingTile = false;
 					
-								} 
+										} 
 
 								
+								}
 						}
 				}
 		}
@@ -99,18 +105,12 @@ public class GameController : MonoBehaviour
 
 		void putTileBackInHand (string tileIdx)
 		{
-				GameObject[] go = GameObject.FindGameObjectsWithTag (tileIdx);
-				if (go.Length == 1) {
-						string cloneString = go [0].transform.name;
-						GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + cloneString.Replace ("(Clone)", ""));
-						//tile.transform.localEulerAngles = go [0].transform.localEulerAngles;
-						tile.transform.rotation = go [0].transform.rotation;			
-						inventory.inventory [inventory.prevIdx] = new Tile (tile);
-						Destroy (go [0]);
-				} else {
-						Debug.Log (tileIdx);
-						Debug.LogError ("Something went wrong");
-				}
+				GameObject go = GameObject.FindGameObjectWithTag (tileIdx);
+				string cloneString = go.transform.name;
+				GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + cloneString.Replace ("(Clone)", ""));
+				tile.transform.rotation = go.transform.rotation;			
+				inventory.inventory [inventory.prevIdx] = new Tile (tile);
+				Destroy (go);
 		}
 
 		void shiftRight (int y)
@@ -193,6 +193,21 @@ public class GameController : MonoBehaviour
 		{
 				gameOverText.text = "Game Over!";
 				gameOver = true;
+				foreach (GameObject player in GameObject.FindGameObjectsWithTag ("Player")) {
+						PlayerController controller = player.GetComponent<PlayerController> ();
+						Animator animator = player.GetComponent<Animator> ();	
+						if (controller != null) {
+								controller.Stop ();
+								if (controller.isWinner) {
+										gameOverText.text = controller.GetName () + " wins!";
+
+								}
+						}
+
+						if (animator != null) {
+								animator.enabled = false;
+						}
+				}
 
 		}
 }

@@ -17,6 +17,12 @@ public class Knights : MonoBehaviour
 						rb.fixedAngle = true;
 						rb.angularDrag = 0.0f;
 						rb.isKinematic = false;
+						s.GetComponent<SpriteRenderer> ().sortingLayerName = "Player";
+						PlayerController playerController = s.GetComponent<PlayerController> () == null ? 
+							s.AddComponent<PlayerController> () : 
+								s.GetComponent<PlayerController> ();
+						playerController.speed = new Vector2 (20.0f, 20.0f);
+
 				}
 	
 		}

@@ -22,18 +22,24 @@ public class StairsCollider : MonoBehaviour
 		void OnTriggerEnter2D (Collider2D collider)
 		{
 				GameObject colliderObject = collider.attachedRigidbody.gameObject;
-				string colliderName = colliderObject.name.Replace ("(Clone)", "");
-				string myName = this.gameObject.name.Replace ("(Clone)", "");
+				string colliderName = GetFormattedName (colliderObject);
+				string myName = GetFormattedName (gameObject);
+				PlayerController playerController = colliderObject.transform.GetComponent<PlayerController> ();
 				if (myName == colliderName) {
+						playerController.isWinner = true;
 						controller.GameOver ();
 				} else {
-						PlayerController controller = colliderObject.transform.GetComponent<PlayerController> ();
-						if (controller != null) {
-								controller.ChangeDirection ();
+						if (playerController != null) {
+								playerController.ChangeDirection ();
 						}
 				
 				}
 		
+		}
+
+		private static string GetFormattedName (GameObject o)
+		{
+				return o.name.Replace ("(Clone)", "");
 		}
 
 		bool isKnight (string colour)

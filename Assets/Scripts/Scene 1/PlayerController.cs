@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 		private float maxX ;
 		private float minY;
 		private float  maxY;
-		private float boundary = 20.0f;
+		private float boundary = 10.0f;
 		public static Vector2 RIGHT = new Vector2 (1.0f, 0.0f);
 		public static Vector2 LEFT = new Vector2 (-1.0f, 0.0f);
 		public static Vector2 UP = new Vector2 (0.0f, 1.0f);
@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 		public static Vector2 LEFT_UP = new Vector2 (-1.0f, 1.0f);
 		public static Vector2 RIGHT_DOWN = new Vector2 (1.0f, -1.0f);
 		public static Vector2 LEFT_DOWN = new Vector2 (-1.0f, -1.0f);
+		public static Vector2 STOP = new Vector2 (0.0f, 0.0f);
+		public bool isWinner = false;
  
 		void Start ()
 		{
@@ -30,9 +32,9 @@ public class PlayerController : MonoBehaviour
 		{
 				tileMap = GameObject.FindGameObjectWithTag ("Tile Map").GetComponent<TileMap> ();
 				minX = tileMap.transform.position.x + tileMap.tileSize + boundary;
-				maxX = tileMap.transform.position.x + (tileMap.size_x - 1) * tileMap.tileSize + boundary;
+				maxX = tileMap.transform.position.x + (tileMap.size_x - 1) * tileMap.tileSize - boundary;
 				minY = tileMap.transform.position.y + tileMap.tileSize + boundary;
-				maxY = tileMap.transform.position.y + (tileMap.size_z - 1) * tileMap.tileSize + boundary;
+				maxY = tileMap.transform.position.y + (tileMap.size_z - 1) * tileMap.tileSize - boundary;
 		}
  
 		// Update is called once per frame
@@ -91,6 +93,17 @@ public class PlayerController : MonoBehaviour
 						ChangeDirection ();
 				}
 		
+		}
+
+		public string GetName ()
+		{
+				return this.name.Replace ("(Clone)", "");
+		}
+
+		public void Stop ()
+		{
+				direction = STOP;
+				transform.Translate (direction);
 		}
 
 		public void TurnRight ()
