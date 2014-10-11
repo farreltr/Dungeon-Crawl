@@ -13,6 +13,11 @@ public class Tile : Object
 		public Sprite sprite;
 		public Quaternion rotation;
 		public GameObject go;
+		private static Vector3 ZERO_ANGLE = new Vector3 (0.0f, 0.0f, 0.0f);
+		//private static Vector3 NINETY_ANGLE = new Vector3 (0.0f, 0.0f, 90.0f);
+		//private static Vector3 ONE_EIGHTY_ANGLE = new Vector3 (0.0f, 0.0f, 180.0f);
+		private static Vector3 TWO_SEVENTY_ANGLE = new Vector3 (0.0f, 0.0f, 270.0f);
+		//private static Vector3 THREE_SIXTY_ANGLE = new Vector3 (0.0f, 0.0f, 360.0f);
 
 		public enum TileType
 		{
@@ -33,7 +38,7 @@ public class Tile : Object
 						return TileType.CrossJunction;
 				case "t-junction":
 						return TileType.TJunction;
-				case "curve":
+				case "right-angle-junction":
 						return TileType.Curve;
 				case "straight":
 						return TileType.Straight;
@@ -79,9 +84,24 @@ public class Tile : Object
 				return string.Concat (rot, "-degree-rotation");
 		}
 
-		public void Rotate ()
+		public void RotateLeft ()
 		{
-				this.rotation = Quaternion.Euler (new Vector3 (rotation.x, rotation.y, rotation.z + 90));
+				if (rotation.eulerAngles == TWO_SEVENTY_ANGLE) {
+						this.rotation = Quaternion.Euler (ZERO_ANGLE);
+				} else {
+						this.rotation = Quaternion.Euler (new Vector3 (rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z + 90));
+				}
+
+		}
+
+		public void RotateRight ()
+		{
+				if (rotation.eulerAngles == ZERO_ANGLE) {
+						this.rotation = Quaternion.Euler (TWO_SEVENTY_ANGLE);
+				} else {
+						this.rotation = Quaternion.Euler (new Vector3 (rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z - 90));
+				}
+
 		}
 
 

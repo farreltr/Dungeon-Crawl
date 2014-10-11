@@ -31,10 +31,10 @@ public class CurveCollider : MonoBehaviour
 						int rotation = Mathf.RoundToInt (this.transform.eulerAngles.z);
 						Direction direction = getTurningDirection (playerController, rotation);
 						if (direction.Equals (Direction.RIGHT)) {
-								playerController.Turn45Right ();
+								playerController.TurnRight ();
 						} else if (direction.Equals (Direction.LEFT)) {
 								//playerController.TurnLeft ();
-								playerController.Turn45Left ();
+								playerController.TurnLeft ();
 					
 						}
 				}

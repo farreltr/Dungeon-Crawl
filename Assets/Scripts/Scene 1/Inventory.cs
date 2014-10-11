@@ -42,6 +42,11 @@ public class Inventory : MonoBehaviour
 				}
 		
 		}
+
+//		GameObject CreateNewTile ()
+//		{
+//				GameObject tile = new GameObject ();
+//		}
 	
 		// Update is called once per frame
 		void Update ()
@@ -63,8 +68,8 @@ public class Inventory : MonoBehaviour
 		{
 				tooltip = EMPTY_STRING;
 				GUI.skin = skin;
-				Rect boxRect = new Rect ((4 * Screen.width / 5) - 10, (1 * Screen.height / 6) - 10, tileWidth * 2f, tileHeight * 4.5f);
-				GUI.Box (boxRect, EMPTY_STRING);
+				//Rect boxRect = new Rect ((4 * Screen.width / 5) - 10, (1 * Screen.height / 6) - 10, tileWidth * 2f, tileHeight * 4.5f);
+				//GUI.Box (boxRect, EMPTY_STRING);
 		
 				e = Event.current;
 				int i = 0;
@@ -72,9 +77,17 @@ public class Inventory : MonoBehaviour
 						for (int x=0; x<slotsX; x++) {
 								Rect slotRect = new Rect (x * tileWidth * 1.1f + (4 * Screen.width / 5), y * (tileHeight + 10) * 1.1f + (1 * Screen.height / 6), tileWidth * 1.1f, tileHeight * 1.1f);
 								Rect tileRect = new Rect (slotRect.x + (tileWidth * 0.05f), slotRect.y + (tileHeight * 0.05f), tileWidth, tileHeight);
+								Rect rotRightRect = new Rect (slotRect.x - (0.4f * tileWidth), slotRect.y + (0.6f * tileHeight), slotRect.width * 0.4f, slotRect.height * 0.4f);
+								Rect rotLeftRect = new Rect (slotRect.x + (1.1f * tileWidth), slotRect.y + (0.6f * tileHeight), slotRect.width * 0.4f, slotRect.height * 0.4f);
 								GUI.Box (slotRect, EMPTY_STRING, skin.GetStyle ("Slot"));	
 								Tile tile = slots [i];
 								tile = inventory [i];
+								if (GUI.Button (rotRightRect, EMPTY_STRING, skin.GetStyle ("Rotate Right"))) {
+										tile.RotateRight ();
+								}
+								if (GUI.Button (rotLeftRect, EMPTY_STRING, skin.GetStyle ("Rotate Left"))) {
+										tile.RotateLeft ();
+								}
 								if (!tile.isEmpty ()) {
 										GUI.DrawTexture (tileRect, tile.GetIcon ());
 										if (slotRect.Contains (e.mousePosition)) {
@@ -96,10 +109,10 @@ public class Inventory : MonoBehaviour
 														showToolTip = true;
 												}
 						
-												if (e.isKey && e.type == EventType.keyDown && (e.character == 'r' || e.character == 'R')) {
-														RotateTile (tile);
-														//TODO implement rotation
-												}
+//												if (e.isKey && e.type == EventType.keyDown && (e.character == 'r' || e.character == 'R')) {
+//														RotateTile (tile);
+//														//TODO implement rotation
+//												}
 						
 												if (Input.GetMouseButtonDown (0)) {
 														//highlight box
@@ -161,11 +174,6 @@ public class Inventory : MonoBehaviour
 						}
 				}
 		
-		}
-	
-		void RotateTile (Tile tile)
-		{
-				tile.Rotate ();
 		}
 
 		public void SetDisabled ()

@@ -4,6 +4,8 @@ using System.Collections;
 public class Knights : MonoBehaviour
 {
 
+		private static Vector2 SPEED = new Vector2 (20.0f, 20.0f);
+
 		// Use this for initialization
 		void Start ()
 		{
@@ -21,7 +23,7 @@ public class Knights : MonoBehaviour
 						PlayerController playerController = s.GetComponent<PlayerController> () == null ? 
 							s.AddComponent<PlayerController> () : 
 								s.GetComponent<PlayerController> ();
-						playerController.speed = new Vector2 (20.0f, 20.0f);
+						playerController.speed = SPEED;
 
 				}
 	
