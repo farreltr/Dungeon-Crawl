@@ -4,7 +4,7 @@ using System.Collections;
 public class Knights : MonoBehaviour
 {
 
-		private static Vector2 SPEED = new Vector2 (20.0f, 20.0f);
+		private static Vector2 SPEED = new Vector2 (40.0f, 40.0f);
 
 		// Use this for initialization
 		void Start ()
