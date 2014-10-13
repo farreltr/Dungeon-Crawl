@@ -49,43 +49,102 @@ public class GameController : MonoBehaviour
 								currentTileCoord.x = x;
 								currentTileCoord.y = y;
 
+								string tileIdx = EMPTY_STRING;
+
 								if (inventory.e != null && inventory.e.type == EventType.mouseUp && inventory.draggingTile) {
 										if (isLeft (x, y)) {
-												putTileBackInHand (string.Concat (x + board.size_x - 1, y - 1));
+												tileIdx = string.Concat (x + board.size_x - 1, y - 1);
+												putTileBackInHand (tileIdx);
+												foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
+														if (knight.isOnRow (y)) {
+																if (knight.checkRespawn (tileIdx)) {
+																		knight.respawn ();
+																} else {
+																		if (!knight.isRespawn) {
+																				knight.transform.position = new Vector3 (knight.GetPosition ().x + 100.0f, knight.GetPosition ().y, 0.0f);
+																		}
+																		
+																}
+								
+														}
+							
+												}
 												shiftRight (y - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
 												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-												tile.tag = string.Concat (x, y - 1);
-												Instantiate (tile, position, inventory.draggedTile.rotation);
+												tile.tag = string.Concat (x, y - 1);												
+												GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
+												tileClone.transform.parent = this.board.transform;
+												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
 												inventory.draggingTile = false;
 										} else if (isRight (x, y)) {
-												putTileBackInHand (string.Concat (x - board.size_x - 1, y - 1));
+												tileIdx = string.Concat (x - board.size_x - 1, y - 1);
+												putTileBackInHand (tileIdx);
+												foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
+														if (knight.isOnRow (y)) {
+																if (knight.checkRespawn (tileIdx)) {
+																		knight.respawn ();
+																} else {
+																		if (!knight.isRespawn) {
+																				knight.transform.position = new Vector3 (knight.GetPosition ().x - 100.0f, knight.GetPosition ().y, 0.0f);
+																		}
+																}
+														}
+							
+												}			
 												shiftLeft (y - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x - 0.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
 												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
 												tile.tag = string.Concat (x - 2, y - 1);
-												Instantiate (tile, position, inventory.draggedTile.rotation);
+												GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
+												tileClone.transform.parent = this.board.transform;
+												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
 												inventory.draggingTile = false;
 										} else if (isTop (x, y)) {
-												putTileBackInHand (string.Concat (x - 1, y - board.size_z - 1));
+												tileIdx = string.Concat (x - 1, y - board.size_z - 1);
+												putTileBackInHand (tileIdx);
+												foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
+														if (knight.isOnColumn (x)) {
+																if (knight.checkRespawn (tileIdx)) {
+																		knight.respawn ();
+																} else {
+																		if (!knight.isRespawn) {
+																				knight.transform.position = new Vector3 (knight.GetPosition ().x, knight.GetPosition ().y - 100.0f, 0.0f);
+																		}
+																}
+														}
+												}
 												shiftDown (x - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y - 0.5f), 0.5f);
 												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
 												tile.tag = string.Concat (x - 1, y - 2);
-												Instantiate (tile, position, inventory.draggedTile.rotation);
+												GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
+												tileClone.transform.parent = this.board.transform;
+												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
 												inventory.draggingTile = false;
 										} else if (isBottom (x, y)) {
-												putTileBackInHand (string.Concat (x - 1, y + board.size_z - 1));
+												tileIdx = string.Concat (x - 1, y + board.size_z - 1);
+												putTileBackInHand (tileIdx);
+												foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
+														if (knight.isOnColumn (x)) {
+																if (knight.checkRespawn (tileIdx)) {
+																		knight.respawn ();
+																} else {
+																		if (!knight.isRespawn) {
+																				knight.transform.position = new Vector3 (knight.GetPosition ().x, knight.GetPosition ().y + 100.0f, 0.0f);
+																		}
+																}
+														}							
+												}
 												shiftUp (x - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y + 1.5f), 0.5f);
 												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);									
 												tile.tag = string.Concat (x - 1, y);
-												Instantiate (tile, position, inventory.draggedTile.rotation);
-												inventory.draggingTile = false;
-					
-										} 
-
-								
+												GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
+												tileClone.transform.parent = this.board.transform;
+												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
+												inventory.draggingTile = false;					
+										} 								
 								}
 						}
 				}
@@ -107,9 +166,6 @@ public class GameController : MonoBehaviour
 				GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + cloneString.Replace ("(Clone)", ""));
 				tile.transform.rotation = go.transform.rotation;			
 				inventory.inventory [inventory.prevIdx] = new Tile (tile);
-				foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
-						knight.checkRespawn (tileIdx);
-				}
 				Destroy (go);
 		}
 
