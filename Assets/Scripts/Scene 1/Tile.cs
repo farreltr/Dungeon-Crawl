@@ -6,7 +6,7 @@ using System.Collections;
 public class Tile : Object
 {
 
-		public string name;
+		new public string name;
 		public int ID;
 		public Texture2D icon;
 		public TileType type;
@@ -40,7 +40,7 @@ public class Tile : Object
 						return TileType.TJunction;
 				case "right-angle-junction":
 						return TileType.Curve;
-				case "straight":
+				case "straight-junction":
 						return TileType.Straight;
 				default :
 						return TileType.Empty;

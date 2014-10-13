@@ -15,13 +15,13 @@ public class Board : MonoBehaviour
 		}
 	
 	
-		public bool isCorner (int x, int y)
-		{
-				return (y == 0 && x == 0) 
-						|| (y == size_z - 1 && x == 0) 
-						|| (y == 0 && x == size_x - 1) 
-						|| (y == size_z - 1 && x == size_x - 1);
-		}
+//		public bool isCorner (int x, int y)
+//		{
+//				return (y == 0 && x == 0) 
+//						|| (y == size_z - 1 && x == 0) 
+//						|| (y == 0 && x == size_x - 1) 
+//						|| (y == size_z - 1 && x == size_x - 1);
+//		}
 	
 		public void BuildBoard ()
 		{
@@ -29,7 +29,7 @@ public class Board : MonoBehaviour
 				for (int x=0; x < size_x; x++) {
 						for (int y=0; y < size_z; y++) {
 								Vector3 position = new Vector3 (x * tileSize + (tileSize * 1.5f), y * tileSize + (tileSize * 1.5f), 0);
-								GameObject tile = isCorner (x, y) ? Resources.Load<GameObject> ("Tiles/Prefabs/cross-junction") : tiles [Random.Range (0, tiles.Length)];
+								GameObject tile = tiles [Random.Range (0, tiles.Length)];
 								Quaternion rotation = Quaternion.Euler (0, 0, 90 * (Random.Range (0, 4)));
 								tile.tag = string.Concat (x.ToString (), y.ToString ());
 								GameObject tileClone = (GameObject)Instantiate (tile, position, rotation);

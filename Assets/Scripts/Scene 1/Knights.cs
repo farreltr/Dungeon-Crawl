@@ -14,6 +14,7 @@ public class Knights : MonoBehaviour
 						GameObject s = (GameObject)Instantiate (knight);
 						s.transform.parent = this.transform;
 						BoxCollider2D collider = s.AddComponent<BoxCollider2D> ();
+						collider.name = s.name;
 						Rigidbody2D rb = s.AddComponent<Rigidbody2D> ();
 						rb.gravityScale = 0.0f;
 						rb.fixedAngle = true;
@@ -33,5 +34,10 @@ public class Knights : MonoBehaviour
 		void Update ()
 		{
 	
+		}
+
+		public static GameObject[] GetAllKnights ()
+		{
+				return GameObject.FindGameObjectsWithTag ("Player");
 		}
 }

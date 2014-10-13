@@ -48,16 +48,21 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Scene 1\Arrows.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Board.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\CurveCollider.cs" />
      <Compile Include="Assets\Scripts\Scene 1\GameController.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Inventory.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Knights.cs" />
-     <Compile Include="Assets\Scripts\Scene 1\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\PlayerControllers\BlueController.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\PlayerControllers\GreenController.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\PlayerControllers\RedController.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\PlayerControllers\YellowController.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Stairs.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\StairsCollider.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Tile.cs" />
      <Compile Include="Assets\Scripts\Scene 1\TileDB.cs" />
      <Compile Include="Assets\Scripts\Scene 1\TileMap.cs" />
      <Compile Include="Assets\Scripts\Start Screen\MenuScript.cs" />
-     <Compile Include="Assets\Temp SHit\Player.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

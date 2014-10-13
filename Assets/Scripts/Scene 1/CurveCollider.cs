@@ -25,7 +25,6 @@ public class CurveCollider : MonoBehaviour
 
 		void OnTriggerEnter2D (Collider2D collider)
 		{
-				GameObject colliderObject = collider.attachedRigidbody.gameObject;
 				PlayerController playerController = collider.transform.GetComponent<PlayerController> ();
 				if (playerController != null) {			
 						int rotation = Mathf.RoundToInt (this.transform.eulerAngles.z);
@@ -33,7 +32,6 @@ public class CurveCollider : MonoBehaviour
 						if (direction.Equals (Direction.RIGHT)) {
 								playerController.TurnRight ();
 						} else if (direction.Equals (Direction.LEFT)) {
-								//playerController.TurnLeft ();
 								playerController.TurnLeft ();
 					
 						}

@@ -51,7 +51,6 @@ public class GameController : MonoBehaviour
 
 								if (inventory.e != null && inventory.e.type == EventType.mouseUp && inventory.draggingTile) {
 										if (isLeft (x, y)) {
-												// create tile index string
 												putTileBackInHand (string.Concat (x + board.size_x - 1, y - 1));
 												shiftRight (y - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
@@ -59,9 +58,7 @@ public class GameController : MonoBehaviour
 												tile.tag = string.Concat (x, y - 1);
 												Instantiate (tile, position, inventory.draggedTile.rotation);
 												inventory.draggingTile = false;
-												inventory.draggedTile = null;
 										} else if (isRight (x, y)) {
-												// shiftLeft();
 												putTileBackInHand (string.Concat (x - board.size_x - 1, y - 1));
 												shiftLeft (y - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x - 0.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
@@ -77,9 +74,7 @@ public class GameController : MonoBehaviour
 												tile.tag = string.Concat (x - 1, y - 2);
 												Instantiate (tile, position, inventory.draggedTile.rotation);
 												inventory.draggingTile = false;
-												//shiftDown();
 										} else if (isBottom (x, y)) {
-												//shiftUp();
 												putTileBackInHand (string.Concat (x - 1, y + board.size_z - 1));
 												shiftUp (x - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y + 1.5f), 0.5f);
@@ -112,6 +107,9 @@ public class GameController : MonoBehaviour
 				GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + cloneString.Replace ("(Clone)", ""));
 				tile.transform.rotation = go.transform.rotation;			
 				inventory.inventory [inventory.prevIdx] = new Tile (tile);
+				foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
+						knight.checkRespawn (tileIdx);
+				}
 				Destroy (go);
 		}
 
@@ -169,19 +167,19 @@ public class GameController : MonoBehaviour
 
 		bool isRight (int x, int y)
 		{
-				return (x == tileMap.size_x - 1 && y != 0 && y != tileMap.size_z - 1);
+				return (x == tileMap.size_x - 1 && y != 0 && y != tileMap.size_y - 1);
 		
 		}
 
 		bool isLeft (int x, int y)
 		{
-				return (x == 0 && y != 0 && y != tileMap.size_z - 1);
+				return (x == 0 && y != 0 && y != tileMap.size_y - 1);
 
 		}
 
 		bool isTop (int x, int y)
 		{
-				return (y == tileMap.size_z - 1 && x != 0 && x != tileMap.size_x - 1);
+				return (y == tileMap.size_y - 1 && x != 0 && x != tileMap.size_x - 1);
 
 		}
 
