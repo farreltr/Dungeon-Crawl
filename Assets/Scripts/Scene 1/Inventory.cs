@@ -82,13 +82,14 @@ public class Inventory : MonoBehaviour
 								GUI.Box (slotRect, EMPTY_STRING, skin.GetStyle ("Slot"));	
 								Tile tile = slots [i];
 								tile = inventory [i];
-								if (GUI.Button (rotRightRect, EMPTY_STRING, skin.GetStyle ("Rotate Right"))) {
-										tile.RotateRight ();
-								}
-								if (GUI.Button (rotLeftRect, EMPTY_STRING, skin.GetStyle ("Rotate Left"))) {
-										tile.RotateLeft ();
-								}
-								if (!tile.isEmpty ()) {
+
+								if (tile != null || !tile.isEmpty ()) {
+										if (GUI.Button (rotRightRect, EMPTY_STRING, skin.GetStyle ("Rotate Right"))) {
+												tile.RotateRight ();
+										}
+										if (GUI.Button (rotLeftRect, EMPTY_STRING, skin.GetStyle ("Rotate Left"))) {
+												tile.RotateLeft ();
+										}
 										GUI.DrawTexture (tileRect, tile.GetIcon ());
 										if (slotRect.Contains (e.mousePosition)) {
 												if (e.button == 0 && e.type == EventType.mouseDrag && !draggingTile) {
@@ -97,22 +98,16 @@ public class Inventory : MonoBehaviour
 														inventory [i] = new Tile ();
 														prevIdx = i;
 												}
-//												if (e.type == EventType.mouseUp && draggingTile) {
-//														inventory [prevIdx] = inventory [i];
-//														inventory [i] = draggedTile;
-//														draggingTile = false;
-//														draggedTile = null;
-//												}
+												if (e.type == EventType.mouseUp && draggingTile) {
+														inventory [prevIdx] = inventory [i];
+														inventory [i] = draggedTile;
+														draggingTile = true;
+												}
 						
 												if (!draggingTile) {
 														CreateToolTip (tile);
 														showToolTip = true;
 												}
-						
-//												if (e.isKey && e.type == EventType.keyDown && (e.character == 'r' || e.character == 'R')) {
-//														RotateTile (tile);
-//														//TODO implement rotation
-//												}
 						
 												if (Input.GetMouseButtonDown (0)) {
 														//highlight box
@@ -163,15 +158,17 @@ public class Inventory : MonoBehaviour
 		
 				for (int i=0; i<inventory.Count; i++) {
 						if (inventory [i].isEmpty ()) {	
-								inventory [i] = database.tiles [id];
+								Tile DBTile = database.tiles [id];
+								if (inventory.Contains (DBTile)) {
+										Tile cloneTile = Tile.CreateNewTile (DBTile.type);
+										inventory [i] = cloneTile;
+								} else {
+										inventory [i] = database.tiles [id];
+								}
+								
 								for (int j=0; j<database.tiles.Count; j++) {
 										if (database.tiles [j].ID == id) {
-												//if (inventory.Contains (database.tiles [j])) {
-												//	inventory[i] = new Tile(database.tiles[i].);
-												//} else {
 												inventory [i] = database.tiles [j];
-												//}
-												
 										}
 					
 								}
