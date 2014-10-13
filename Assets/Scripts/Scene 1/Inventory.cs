@@ -166,7 +166,12 @@ public class Inventory : MonoBehaviour
 								inventory [i] = database.tiles [id];
 								for (int j=0; j<database.tiles.Count; j++) {
 										if (database.tiles [j].ID == id) {
+												//if (inventory.Contains (database.tiles [j])) {
+												//	inventory[i] = new Tile(database.tiles[i].);
+												//} else {
 												inventory [i] = database.tiles [j];
+												//}
+												
 										}
 					
 								}
