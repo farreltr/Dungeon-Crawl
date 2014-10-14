@@ -95,6 +95,7 @@ public class GameController : MonoBehaviour
 				if (nextPlayer == 5) {
 						nextPlayer = 1;
 				}
+				inventory.Save ();
 
 		}
 

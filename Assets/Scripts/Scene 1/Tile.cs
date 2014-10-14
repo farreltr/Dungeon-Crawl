@@ -7,16 +7,7 @@ public class Tile : MonoBehaviour
 {
 		public TileType type = TileType.Empty;
 		private static Vector3 ZERO_ANGLE = new Vector3 (0.0f, 0.0f, 0.0f);
-		//private static Vector3 NINETY_ANGLE = new Vector3 (0.0f, 0.0f, 90.0f);
-		//private static Vector3 ONE_EIGHTY_ANGLE = new Vector3 (0.0f, 0.0f, 180.0f);
 		private static Vector3 TWO_SEVENTY_ANGLE = new Vector3 (0.0f, 0.0f, 270.0f);
-		//private static Vector3 THREE_SIXTY_ANGLE = new Vector3 (0.0f, 0.0f, 360.0f);
-		
-		void Start ()
-		{
-				DontDestroyOnLoad (gameObject);
-		}
-
 
 		public enum TileType
 		{
@@ -204,9 +195,6 @@ public class Tile : MonoBehaviour
 				}
 		
 		}
-	
-	
-	
 	
 }
 

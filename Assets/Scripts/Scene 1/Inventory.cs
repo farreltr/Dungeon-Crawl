@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour
 {
-		public List<Tile> inventory = new List<Tile> ();
-		public List<Tile> slots = new List<Tile> ();
+		public Tile[] inventory;
+		public Tile[] slots;
 		private TileDB database;
 		public int slotsX, slotsY;
 		private bool showInventory;
@@ -25,18 +28,14 @@ public class Inventory : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
-				for (int i=0; i<(slotsX*slotsY); i++) {
-						slots.Add (null);
-						inventory.Add (null);
-			
-				}
+				slots = new Tile[slotsX * slotsY];
+				inventory = new Tile[slotsX * slotsY];
 				database = TileDB.tileDB;
-				for (int i = 0; i<inventory.Count; i++) {
-						int tileId = Random.Range (0, database.tiles.Count - 1);
-						AddTile (tileId);
-			
-				}
-		
+				for (int i = 0; i<inventory.Length; i++) {
+						int tileId = UnityEngine.Random.Range (0, database.tiles.Count - 1);
+						AddTile (tileId);				
+				}	
+				Load ();
 		}
 
 		void Update ()
@@ -135,14 +134,11 @@ public class Inventory : MonoBehaviour
 		void AddTile (int id)
 		{
 		
-				for (int i=0; i<inventory.Count; i++) {
+				for (int i=0; i<inventory.Length; i++) {
 						if (inventory [i] == null || inventory [i].isEmpty ()) {	
 								GameObject DBTile = database.tiles [id];
 								//if (inventory.Contains (DBTile)) {
-								GameObject newTile = new GameObject ();
-								Tile tile = newTile.AddComponent<Tile> ();
-								tile.SetUpTile (Tile.getTileType (DBTile.name));
-								inventory [i] = tile;
+								inventory [i] = CreateTile (DBTile.name);
 								//} else {
 								//	inventory [i] = database.tiles [id];
 								//}
@@ -159,10 +155,45 @@ public class Inventory : MonoBehaviour
 		
 		}
 
+		public static Tile CreateTile (string name)
+		{
+				GameObject newTile = new GameObject ();
+				Tile tile = newTile.AddComponent<Tile> ();
+				tile.SetUpTile (Tile.getTileType (name));
+				return tile;
+		}
+
 		public void SetDisabled ()
 		{
 				disabled = true;
 
+		}
+
+		public void Save ()
+		{
+				BinaryFormatter bf = new BinaryFormatter ();
+				FileStream file = File.Create (Application.persistentDataPath + "/" + Application.loadedLevelName + ".dat");
+
+				PlayerData data = new PlayerData ();
+				data.tile0 = new TileData (inventory [0].gameObject.name, 0, inventory [0].gameObject.transform.eulerAngles.z);
+				data.tile1 = new TileData (inventory [1].gameObject.name, 1, inventory [1].gameObject.transform.eulerAngles.z);
+				data.tile2 = new TileData (inventory [2].gameObject.name, 2, inventory [2].gameObject.transform.eulerAngles.z);
+				bf.Serialize (file, data);				
+				file.Close ();
+		}
+
+		public void Load ()
+		{
+				BinaryFormatter bf = new BinaryFormatter ();
+				string path = Application.persistentDataPath + "/" + Application.loadedLevelName + ".dat";
+				if (File.Exists (path)) {
+						FileStream file = File.Open (path, FileMode.Open);
+						PlayerData data = (PlayerData)bf.Deserialize (file);
+						DeserializeTile (data.tile0);
+						DeserializeTile (data.tile1);
+						DeserializeTile (data.tile2);
+						file.Close ();
+				}
 		}
 	
 //		bool InventoryContains (int id)
@@ -174,4 +205,38 @@ public class Inventory : MonoBehaviour
 //				}
 //				return false;
 //		}
+
+		void DeserializeTile (TileData tileData)
+		{
+				Tile tile0 = CreateTile (tileData.tileType);
+				Vector3 rotation = new Vector3 (0.0f, 0.0f, tileData.rotation);
+				tile0.gameObject.transform.rotation = Quaternion.Euler (rotation);
+				Destroy (inventory [tileData.index]);
+				inventory [tileData.index] = tile0;
+		}
+}
+
+[Serializable]
+class TileData
+{
+		public string tileType;
+		public int index;
+		public float rotation;
+
+		public TileData (string tileType, int index, float rotation)
+		{
+				this.tileType = tileType;
+				this.index = index;
+				this.rotation = rotation;
+
+		}
+}
+
+[Serializable]
+class PlayerData
+{
+		public TileData tile0;
+		public TileData tile1;
+		public TileData tile2;
+
 }
