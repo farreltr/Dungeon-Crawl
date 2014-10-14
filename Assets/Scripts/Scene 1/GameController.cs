@@ -57,50 +57,36 @@ public class GameController : MonoBehaviour
 												putTileBackInHand (x + board.size_x - 1, y - 1);
 												Knights.knights.ShiftKnightsRight (x + board.size_x - 1, y - 1);
 												board.shiftRight (y - 1);
-												Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
-												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-												tile.tag = string.Concat (x, y - 1);												
-												GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
-												tileClone.transform.parent = this.board.transform;
-												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
-												inventory.draggingTile = false;
+												InstantiateDraggedTile (new Vector3 (tileMap.tileSize * (x + 1.5f), tileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x, y - 1));											
 										} else if (board.isRight (x, y)) {
 												putTileBackInHand (x - board.size_x - 1, y - 1);
 												Knights.knights.ShiftKnightsLeft (x - board.size_x - 1, y - 1);			
-												board.shiftLeft (y - 1);
-												Vector3 position = new Vector3 (tileMap.tileSize * (x - 0.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
-												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-												tile.tag = string.Concat (x - 2, y - 1);
-												GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
-												tileClone.transform.parent = this.board.transform;
-												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
-												inventory.draggingTile = false;
+												board.shiftLeft (y - 1);											
+												InstantiateDraggedTile (new Vector3 (tileMap.tileSize * (x - 0.5f), tileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x - 2, y - 1));
 										} else if (board.isTop (x, y)) {
 												putTileBackInHand (x - 1, y - board.size_z - 1);
 												Knights.knights.ShiftKnightsDown (x - 1, y - board.size_z - 1);
-												board.shiftDown (x - 1);
-												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y - 0.5f), 0.5f);
-												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-												tile.tag = string.Concat (x - 1, y - 2);
-												GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
-												tileClone.transform.parent = this.board.transform;
-												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
-												inventory.draggingTile = false;
+												board.shiftDown (x - 1);											
+												InstantiateDraggedTile (new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y - 0.5f), 0.5f), string.Concat (x - 1, y - 2));
 										} else if (board.isBottom (x, y)) {
 												putTileBackInHand (x - 1, y + board.size_z - 1);
 												Knights.knights.ShiftKnightsUp (x - 1, y + board.size_z - 1);
 												board.shiftUp (x - 1);
-												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y + 1.5f), 0.5f);
-												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);									
-												tile.tag = string.Concat (x - 1, y);
-												GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
-												tileClone.transform.parent = this.board.transform;
-												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
-												inventory.draggingTile = false;					
+												InstantiateDraggedTile (new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y + 1.5f), 0.5f), string.Concat (x - 1, y));								
 										} 								
 								}
 						}
 				}
+		}
+
+		void InstantiateDraggedTile (Vector3 position, string tag)
+		{
+				GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
+				GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
+				tileClone.transform.parent = this.board.transform;
+				tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
+				inventory.draggingTile = false;
+				tileClone.tag = tag;
 		}
 
 		void CheckRestart ()
