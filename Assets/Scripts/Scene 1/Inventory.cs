@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
 		private float tileWidth = 37.0f;
 		private float tileHeight = 37.0f;
 		private bool disabled = false;
+		private bool displayLabel = false;
 	
 		// Use this for initialization
 		void Start ()
@@ -58,12 +59,11 @@ public class Inventory : MonoBehaviour
 		{
 				if (!disabled) {
 						DrawInventory ();
+				} else {						
+						GUI.Label (new Rect (Screen.width / 2, Screen.height / 1.4f, 100, 100), "HIT 'R' TO RESTART");
 				}
-
-
-		
 		}
-	
+
 		public void DrawInventory ()
 		{
 				tooltip = EMPTY_STRING;

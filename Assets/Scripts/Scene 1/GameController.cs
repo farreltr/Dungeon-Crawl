@@ -31,11 +31,12 @@ public class GameController : MonoBehaviour
 		void Update ()
 		{
 				if (gameOver) {
+						CheckRestart ();
 						//display winner
 						//destroy all objects
 
 				} else {
-						CheckRestart ();
+						
 
 
 						Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -265,6 +266,7 @@ public class GameController : MonoBehaviour
 						if (animator != null) {
 								animator.enabled = false;
 						}
+						restart = true;
 				}
 
 		}

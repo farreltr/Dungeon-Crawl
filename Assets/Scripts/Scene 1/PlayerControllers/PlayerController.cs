@@ -52,6 +52,11 @@ public abstract class PlayerController : MonoBehaviour
 				transform.Translate (movement);
 				SetDirection ();
 				bool isOutOfBounds = IsOutOfbounds ();
+				if (isRespawn) {
+						animator.enabled = false;
+				} else {
+						animator.enabled = true;
+				}
 				if (!isOutOfBounds) {
 						isRespawn = false;
 				}
