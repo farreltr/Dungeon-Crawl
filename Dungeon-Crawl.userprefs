@@ -1,22 +1,24 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Scene 1\CurveCollider.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Scene 1\Knights.cs">
     <Files>
-      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\YellowController.cs" Line="26" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\BlueController.cs" Line="17" Column="36" />
+      <File FileName="Assets\Scripts\Scene 1\TileMap.cs" Line="15" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\YellowController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\BlueController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\PlayerControllers\GreenController.cs" Line="21" Column="4" />
-      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs" Line="81" Column="4" />
-      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\RedController.cs" Line="25" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\GameController.cs" Line="170" Column="4" />
-      <File FileName="Assets\Scripts\Scene 1\Tile.cs" Line="128" Column="3" />
-      <File FileName="Assets\Scripts\Scene 1\StairsCollider.cs" Line="31" Column="95" />
-      <File FileName="Assets\Scripts\Scene 1\Board.cs" Line="37" Column="15" />
-      <File FileName="Assets\Scripts\Scene 1\Inventory.cs" Line="172" Column="13" />
-      <File FileName="Assets\Scripts\Scene 1\Knights.cs" Line="38" Column="2" />
-      <File FileName="Assets\Scripts\Scene 1\TileDB.cs" Line="15" Column="4" />
-      <File FileName="Assets\Scripts\Scene 1\TileMap.cs" Line="13" Column="2" />
+      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs" Line="280" Column="2" />
+      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\RedController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\GameController.cs" Line="59" Column="41" />
+      <File FileName="Assets\Scripts\Scene 1\Tile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\StairsCollider.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\Board.cs" Line="10" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\Inventory.cs" Line="172" Column="12" />
+      <File FileName="Assets\Scripts\Scene 1\Knights.cs" Line="46" Column="6" />
+      <File FileName="Assets\Scripts\Scene 1\TileDB.cs" Line="13" Column="24" />
+      <File FileName="Assets\Scripts\Scene 1\TileMap.cs" Line="86" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\Arrows.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\CurveCollider.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\IPlayerController.cs" Line="3" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

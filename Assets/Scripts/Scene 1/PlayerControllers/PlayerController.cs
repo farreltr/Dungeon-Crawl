@@ -205,11 +205,11 @@ public abstract class PlayerController : MonoBehaviour
 		
 		}
 
-		public bool checkRespawn (string tileIdx)
+		public bool checkRespawn (int x, int y)
 		{
-				int x = Mathf.FloorToInt (GetPosition ().x / tileMap.tileSize) - 1;
-				int y = Mathf.FloorToInt (GetPosition ().y / tileMap.tileSize) - 1;
-				return tileIdx.Equals (string.Concat (x, y));
+				int x_idx = Mathf.FloorToInt (GetPosition ().x / tileMap.tileSize) - 1;
+				int y_idx = Mathf.FloorToInt (GetPosition ().y / tileMap.tileSize) - 1;
+				return x == x_idx && y == y_idx;
 		}
 
 		public bool isOnRow (int y)
@@ -237,5 +237,57 @@ public abstract class PlayerController : MonoBehaviour
 		{
 				return transform.position;
 
+		}
+
+		public void ShiftRight (int x, int y)
+		{
+				if (this.isOnRow (y + 1)) {
+						if (checkRespawn (x, y)) {
+								respawn ();
+						} else {
+								if (!isRespawn) {
+										transform.position = new Vector3 (GetPosition ().x + 100.0f, GetPosition ().y, 0.0f);
+								}
+						}
+				}
+		}
+
+		public void ShiftUp (int x, int y)
+		{
+				if (isOnColumn (x + 1)) {
+						if (checkRespawn (x, y)) {
+								respawn ();
+						} else {
+								if (!isRespawn) {
+										transform.position = new Vector3 (GetPosition ().x, GetPosition ().y + 100.0f, 0.0f);
+								}
+						}
+				}
+		}
+
+		public void ShiftLeft (int x, int y)
+		{
+				if (isOnRow (y + 1)) {
+						if (checkRespawn (x, y)) {
+								respawn ();
+						} else {
+								if (!isRespawn) {
+										transform.position = new Vector3 (GetPosition ().x - 100.0f, GetPosition ().y, 0.0f);
+								}
+						}
+				}
+		}
+
+		public void ShiftDown (int x, int y)
+		{
+				if (isOnColumn (x + 1)) {
+						if (checkRespawn (x, y)) {
+								respawn ();
+						} else {
+								if (!isRespawn) {
+										transform.position = new Vector3 (GetPosition ().x, GetPosition ().y - 100.0f, 0.0f);
+								}
+						}
+				}
 		}
 }

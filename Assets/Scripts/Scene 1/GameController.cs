@@ -21,9 +21,9 @@ public class GameController : MonoBehaviour
 				restart = false;
 				restartText.text = EMPTY_STRING;
 				gameOverText.text = EMPTY_STRING;
-				tileMap = GameObject.FindGameObjectWithTag ("Tile Map").GetComponent<TileMap> ();
+				tileMap = TileMap.tileMap;
 				inventory = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<Inventory> ();
-				board = GameObject.FindGameObjectWithTag ("Board").GetComponent<Board> ();
+				board = Board.board;
 				
 		}
 
@@ -53,24 +53,10 @@ public class GameController : MonoBehaviour
 								string tileIdx = EMPTY_STRING;
 
 								if (inventory.e != null && inventory.e.type == EventType.mouseUp && inventory.draggingTile) {
-										if (isLeft (x, y)) {
-												tileIdx = string.Concat (x + board.size_x - 1, y - 1);
-												putTileBackInHand (tileIdx);
-												foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
-														if (knight.isOnRow (y)) {
-																if (knight.checkRespawn (tileIdx)) {
-																		knight.respawn ();
-																} else {
-																		if (!knight.isRespawn) {
-																				knight.transform.position = new Vector3 (knight.GetPosition ().x + 100.0f, knight.GetPosition ().y, 0.0f);
-																		}
-																		
-																}
-								
-														}
-							
-												}
-												shiftRight (y - 1);
+										if (board.isLeft (x, y)) {
+												putTileBackInHand (x + board.size_x - 1, y - 1);
+												Knights.knights.ShiftKnightsRight (x + board.size_x - 1, y - 1);
+												board.shiftRight (y - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x + 1.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
 												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
 												tile.tag = string.Concat (x, y - 1);												
@@ -78,22 +64,10 @@ public class GameController : MonoBehaviour
 												tileClone.transform.parent = this.board.transform;
 												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
 												inventory.draggingTile = false;
-										} else if (isRight (x, y)) {
-												tileIdx = string.Concat (x - board.size_x - 1, y - 1);
-												putTileBackInHand (tileIdx);
-												foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
-														if (knight.isOnRow (y)) {
-																if (knight.checkRespawn (tileIdx)) {
-																		knight.respawn ();
-																} else {
-																		if (!knight.isRespawn) {
-																				knight.transform.position = new Vector3 (knight.GetPosition ().x - 100.0f, knight.GetPosition ().y, 0.0f);
-																		}
-																}
-														}
-							
-												}			
-												shiftLeft (y - 1);
+										} else if (board.isRight (x, y)) {
+												putTileBackInHand (x - board.size_x - 1, y - 1);
+												Knights.knights.ShiftKnightsLeft (x - board.size_x - 1, y - 1);			
+												board.shiftLeft (y - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x - 0.5f), tileMap.tileSize * (y + 0.5f), 0.5f);
 												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
 												tile.tag = string.Concat (x - 2, y - 1);
@@ -101,21 +75,10 @@ public class GameController : MonoBehaviour
 												tileClone.transform.parent = this.board.transform;
 												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
 												inventory.draggingTile = false;
-										} else if (isTop (x, y)) {
-												tileIdx = string.Concat (x - 1, y - board.size_z - 1);
-												putTileBackInHand (tileIdx);
-												foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
-														if (knight.isOnColumn (x)) {
-																if (knight.checkRespawn (tileIdx)) {
-																		knight.respawn ();
-																} else {
-																		if (!knight.isRespawn) {
-																				knight.transform.position = new Vector3 (knight.GetPosition ().x, knight.GetPosition ().y - 100.0f, 0.0f);
-																		}
-																}
-														}
-												}
-												shiftDown (x - 1);
+										} else if (board.isTop (x, y)) {
+												putTileBackInHand (x - 1, y - board.size_z - 1);
+												Knights.knights.ShiftKnightsDown (x - 1, y - board.size_z - 1);
+												board.shiftDown (x - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y - 0.5f), 0.5f);
 												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
 												tile.tag = string.Concat (x - 1, y - 2);
@@ -123,21 +86,10 @@ public class GameController : MonoBehaviour
 												tileClone.transform.parent = this.board.transform;
 												tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
 												inventory.draggingTile = false;
-										} else if (isBottom (x, y)) {
-												tileIdx = string.Concat (x - 1, y + board.size_z - 1);
-												putTileBackInHand (tileIdx);
-												foreach (PlayerController knight in GameObject.FindObjectsOfType<PlayerController>()) {
-														if (knight.isOnColumn (x)) {
-																if (knight.checkRespawn (tileIdx)) {
-																		knight.respawn ();
-																} else {
-																		if (!knight.isRespawn) {
-																				knight.transform.position = new Vector3 (knight.GetPosition ().x, knight.GetPosition ().y + 100.0f, 0.0f);
-																		}
-																}
-														}							
-												}
-												shiftUp (x - 1);
+										} else if (board.isBottom (x, y)) {
+												putTileBackInHand (x - 1, y + board.size_z - 1);
+												Knights.knights.ShiftKnightsUp (x - 1, y + board.size_z - 1);
+												board.shiftUp (x - 1);
 												Vector3 position = new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y + 1.5f), 0.5f);
 												GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);									
 												tile.tag = string.Concat (x - 1, y);
@@ -160,9 +112,9 @@ public class GameController : MonoBehaviour
 				}
 		}
 
-		void putTileBackInHand (string tileIdx)
+		void putTileBackInHand (int x, int y)
 		{
-				GameObject go = GameObject.FindGameObjectWithTag (tileIdx);
+				GameObject go = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 				string cloneString = go.transform.name;
 				GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + cloneString.Replace ("(Clone)", ""));
 				tile.transform.rotation = go.transform.rotation;			
@@ -170,81 +122,6 @@ public class GameController : MonoBehaviour
 				Destroy (go);
 		}
 
-		void shiftRight (int y)
-		{
-				for (int x=board.size_x-2; x>-1; x--) {
-						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
-						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x + tileMap.tileSize, position.y, position.z);
-						tile.tag = string.Concat (x + 1, y);
-
-				}
-
-			
-		}
-
-		void shiftLeft (int y)
-		{
-				for (int x=1; x<board.size_x; x++) {
-						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
-						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x - tileMap.tileSize, position.y, position.z);
-						tile.tag = string.Concat (x - 1, y);
-			
-				}
-		
-		
-		}
-
-		void shiftDown (int x)
-		{
-				for (int y=1; y<board.size_z; y++) {
-						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
-						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x, position.y - tileMap.tileSize, position.z);
-						tile.tag = string.Concat (x, y - 1);
-			
-				}
-		
-		
-		}
-
-		void shiftUp (int x)
-		{
-				for (int y=board.size_z -2; y>-1; y--) {
-						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
-						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x, position.y + tileMap.tileSize, position.z);
-						tile.tag = string.Concat (x, y + 1);
-
-				}
-		
-		
-		}
-
-		bool isRight (int x, int y)
-		{
-				return (x == tileMap.size_x - 1 && y != 0 && y != tileMap.size_y - 1);
-		
-		}
-
-		bool isLeft (int x, int y)
-		{
-				return (x == 0 && y != 0 && y != tileMap.size_y - 1);
-
-		}
-
-		bool isTop (int x, int y)
-		{
-				return (y == tileMap.size_y - 1 && x != 0 && x != tileMap.size_x - 1);
-
-		}
-
-		bool isBottom (int x, int y)
-		{
-				return (y == 0 && x != 0 && x != tileMap.size_x - 1);
-		
-		}
 
 		public void GameOver ()
 		{

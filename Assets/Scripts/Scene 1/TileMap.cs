@@ -10,6 +10,17 @@ public class TileMap : MonoBehaviour
 		public int size_x = 10;
 		public int size_y = 10;
 		public float tileSize = 100.0f;
+		public static TileMap tileMap;
+
+		void Awake ()
+		{
+				if (tileMap == null) {
+						DontDestroyOnLoad (tileMap);
+						tileMap = this;
+				} else if (tileMap != this) {
+						Destroy (gameObject);
+				}
+		}
 
 		void Start ()
 		{

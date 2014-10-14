@@ -7,6 +7,17 @@ public class Board : MonoBehaviour
 		public int size_x = 10;
 		public int size_z = 10;
 		public float tileSize = 100.0f;
+		public static Board board;
+
+		void Awake ()
+		{
+				if (board == null) {
+						DontDestroyOnLoad (board);
+						board = this;
+				} else if (board != this) {
+						Destroy (gameObject);
+				}
+		}
 
 		// Use this for initialization
 		void Start ()
@@ -39,5 +50,82 @@ public class Board : MonoBehaviour
 						}
 				}
 		}
+
+		public void shiftRight (int y)
+		{
+				for (int x=board.size_x-2; x>-1; x--) {
+						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
+						Vector3 position = tile.transform.position;
+						tile.transform.position = new Vector3 (position.x + TileMap.tileMap.tileSize, position.y, position.z);
+						tile.tag = string.Concat (x + 1, y);
+			
+				}
+		
+		
+		}
+	
+		public void shiftLeft (int y)
+		{
+				for (int x=1; x<board.size_x; x++) {
+						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
+						Vector3 position = tile.transform.position;
+						tile.transform.position = new Vector3 (position.x - TileMap.tileMap.tileSize, position.y, position.z);
+						tile.tag = string.Concat (x - 1, y);
+			
+				}
+		
+		
+		}
+	
+		public void shiftDown (int x)
+		{
+				for (int y=1; y<board.size_z; y++) {
+						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
+						Vector3 position = tile.transform.position;
+						tile.transform.position = new Vector3 (position.x, position.y - TileMap.tileMap.tileSize, position.z);
+						tile.tag = string.Concat (x, y - 1);
+			
+				}
+		
+		
+		}
+	
+		public void shiftUp (int x)
+		{
+				for (int y=board.size_z -2; y>-1; y--) {
+						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
+						Vector3 position = tile.transform.position;
+						tile.transform.position = new Vector3 (position.x, position.y + TileMap.tileMap.tileSize, position.z);
+						tile.tag = string.Concat (x, y + 1);
+			
+				}
+		
+		
+		}
+	
+		public bool isRight (int x, int y)
+		{
+				return (x == TileMap.tileMap.size_x - 1 && y != 0 && y != TileMap.tileMap.size_y - 1);
+		
+		}
+	
+		public bool isLeft (int x, int y)
+		{
+				return (x == 0 && y != 0 && y != TileMap.tileMap.size_y - 1);
+		
+		}
+	
+		public bool isTop (int x, int y)
+		{
+				return (y == TileMap.tileMap.size_y - 1 && x != 0 && x != TileMap.tileMap.size_x - 1);
+		
+		}
+	
+		public bool isBottom (int x, int y)
+		{
+				return (y == 0 && x != 0 && x != TileMap.tileMap.size_x - 1);
+		
+		}
+
 
 }

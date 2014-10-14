@@ -5,12 +5,28 @@ public class Knights : MonoBehaviour
 {
 
 		private static Vector2 SPEED = new Vector2 (40.0f, 40.0f);
+		private PlayerController[] knightArray;
 
+		public static Knights knights;
+	
+		void Awake ()
+		{
+				if (knights == null) {
+						DontDestroyOnLoad (knights);
+						knights = this;
+				} else if (knights != this) {
+						Destroy (gameObject);
+				}
+		}
+
+	
 		// Use this for initialization
 		void Start ()
 		{
-				GameObject[] knights = Resources.LoadAll<GameObject> ("Knights/Prefabs/");
-				foreach (GameObject knight in knights) {
+				GameObject[] knightPrefabs = Resources.LoadAll<GameObject> ("Knights/Prefabs/");
+				int i = 0;
+				knightArray = new PlayerController[knightPrefabs.Length];
+				foreach (GameObject knight in knightPrefabs) {
 						GameObject s = (GameObject)Instantiate (knight);
 						s.transform.parent = this.transform;
 						BoxCollider2D collider = s.AddComponent<BoxCollider2D> ();
@@ -25,19 +41,40 @@ public class Knights : MonoBehaviour
 							s.AddComponent<PlayerController> () : 
 								s.GetComponent<PlayerController> ();
 						playerController.speed = SPEED;
-
+						knightArray [i] = playerController;
+						i++;
 				}
 	
 		}
-	
-		// Update is called once per frame
-		void Update ()
+
+
+		public void ShiftKnightsRight (int x, int y)
 		{
-	
+				foreach (PlayerController knight in knightArray) {
+						knight.ShiftRight (x, y);
+				}
 		}
 
-		public static GameObject[] GetAllKnights ()
+
+	
+		public void ShiftKnightsDown (int x, int y)
 		{
-				return GameObject.FindGameObjectsWithTag ("Player");
+				foreach (PlayerController knight in knightArray) {
+						knight.ShiftDown (x, y);
+				}
+		}
+	
+		public void ShiftKnightsUp (int x, int y)
+		{
+				foreach (PlayerController knight in knightArray) {
+						knight.ShiftUp (x, y);
+				}
+		}
+	
+		public void ShiftKnightsLeft (int x, int y)
+		{
+				foreach (PlayerController knight in knightArray) {
+						knight.ShiftLeft (x, y);
+				}
 		}
 }
