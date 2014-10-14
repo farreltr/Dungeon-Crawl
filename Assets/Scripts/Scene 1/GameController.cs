@@ -3,27 +3,33 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
-	
-		TileMap tileMap;
 		Inventory inventory;
-		Board board;	
 		Vector3 currentTileCoord;	
 		private bool restart;
 		private bool gameOver;
-		public GUIText restartText;
-		public GUIText gameOverText;
-
 		private static string EMPTY_STRING = "";
+		private static int nextPlayer = 2;
+
+		public static GameController controller;
+	
+		void Awake ()
+		{
+				if (controller == null) {
+						DontDestroyOnLoad (controller);
+						controller = this;
+				} else if (controller != this) {
+						Destroy (gameObject);
+				}
+		}
 	
 		void Start ()
 		{
+				DontDestroyOnLoad (gameObject);
 				gameOver = false;
 				restart = false;
-				restartText.text = EMPTY_STRING;
-				gameOverText.text = EMPTY_STRING;
-				tileMap = TileMap.tileMap;
-				inventory = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<Inventory> ();
-				board = Board.board;
+				//restartText.text = EMPTY_STRING;
+				//gameOverText.text = EMPTY_STRING;
+				inventory = GameObject.FindObjectOfType<Inventory> ();
 				
 		}
 
@@ -36,15 +42,14 @@ public class GameController : MonoBehaviour
 						//destroy all objects
 
 				} else {
-						
-
-
 						Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 						RaycastHit hitInfo;
+						//Load Inventory for next player. Do this from a file later
+						inventory = GameObject.FindObjectOfType<Inventory> ();
 		
-						if (tileMap.collider.Raycast (ray, out hitInfo, Mathf.Infinity)) {
-								int x = Mathf.FloorToInt (hitInfo.point.x / tileMap.tileSize);
-								int y = Mathf.FloorToInt (hitInfo.point.y / tileMap.tileSize);
+						if (TileMap.tileMap.collider.Raycast (ray, out hitInfo, Mathf.Infinity)) {
+								int x = Mathf.FloorToInt (hitInfo.point.x / TileMap.tileMap.tileSize);
+								int y = Mathf.FloorToInt (hitInfo.point.y / TileMap.tileMap.tileSize);
 								//Debug.Log ("Tile: " + x + ", " + y);
 			
 								currentTileCoord.x = x;
@@ -53,37 +58,51 @@ public class GameController : MonoBehaviour
 								string tileIdx = EMPTY_STRING;
 
 								if (inventory.e != null && inventory.e.type == EventType.mouseUp && inventory.draggingTile) {
-										if (board.isLeft (x, y)) {
-												putTileBackInHand (x + board.size_x - 1, y - 1);
-												Knights.knights.ShiftKnightsRight (x + board.size_x - 1, y - 1);
-												board.shiftRight (y - 1);
-												InstantiateDraggedTile (new Vector3 (tileMap.tileSize * (x + 1.5f), tileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x, y - 1));											
-										} else if (board.isRight (x, y)) {
-												putTileBackInHand (x - board.size_x - 1, y - 1);
-												Knights.knights.ShiftKnightsLeft (x - board.size_x - 1, y - 1);			
-												board.shiftLeft (y - 1);											
-												InstantiateDraggedTile (new Vector3 (tileMap.tileSize * (x - 0.5f), tileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x - 2, y - 1));
-										} else if (board.isTop (x, y)) {
-												putTileBackInHand (x - 1, y - board.size_z - 1);
-												Knights.knights.ShiftKnightsDown (x - 1, y - board.size_z - 1);
-												board.shiftDown (x - 1);											
-												InstantiateDraggedTile (new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y - 0.5f), 0.5f), string.Concat (x - 1, y - 2));
-										} else if (board.isBottom (x, y)) {
-												putTileBackInHand (x - 1, y + board.size_z - 1);
-												Knights.knights.ShiftKnightsUp (x - 1, y + board.size_z - 1);
-												board.shiftUp (x - 1);
-												InstantiateDraggedTile (new Vector3 (tileMap.tileSize * (x + 0.5f), tileMap.tileSize * (y + 1.5f), 0.5f), string.Concat (x - 1, y));								
+										if (Board.board.isLeft (x, y)) {
+												putTileBackInHand (x + Board.board.size_x - 1, y - 1);
+												Knights.knights.ShiftKnightsRight (x + Board.board.size_x - 1, y - 1);
+												Board.board.shiftRight (y - 1);
+												InstantiateDraggedTile (new Vector3 (TileMap.tileMap.tileSize * (x + 1.5f), TileMap.tileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x, y - 1));											
+												GoToNextPlayer ();
+										} else if (Board.board.isRight (x, y)) {
+												putTileBackInHand (x - Board.board.size_x - 1, y - 1);
+												Knights.knights.ShiftKnightsLeft (x - Board.board.size_x - 1, y - 1);			
+												Board.board.shiftLeft (y - 1);											
+												InstantiateDraggedTile (new Vector3 (TileMap.tileMap.tileSize * (x - 0.5f), TileMap.tileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x - 2, y - 1));
+												GoToNextPlayer ();
+										} else if (Board.board.isTop (x, y)) {
+												putTileBackInHand (x - 1, y - Board.board.size_y - 1);
+												Knights.knights.ShiftKnightsDown (x - 1, y - Board.board.size_y - 1);
+												Board.board.shiftDown (x - 1);											
+												InstantiateDraggedTile (new Vector3 (TileMap.tileMap.tileSize * (x + 0.5f), TileMap.tileMap.tileSize * (y - 0.5f), 0.5f), string.Concat (x - 1, y - 2));
+												GoToNextPlayer ();
+										} else if (Board.board.isBottom (x, y)) {
+												putTileBackInHand (x - 1, y + Board.board.size_y - 1);
+												Knights.knights.ShiftKnightsUp (x - 1, y + Board.board.size_y - 1);
+												Board.board.shiftUp (x - 1);
+												InstantiateDraggedTile (new Vector3 (TileMap.tileMap.tileSize * (x + 0.5f), TileMap.tileMap.tileSize * (y + 1.5f), 0.5f), string.Concat (x - 1, y));								
+												GoToNextPlayer ();
 										} 								
 								}
 						}
 				}
 		}
 
+		void GoToNextPlayer ()
+		{
+				Application.LoadLevel (nextPlayer);
+				nextPlayer++;
+				if (nextPlayer == 5) {
+						nextPlayer = 1;
+				}
+
+		}
+
 		void InstantiateDraggedTile (Vector3 position, string tag)
 		{
 				GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + inventory.draggedTile.name);
-				GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.rotation);
-				tileClone.transform.parent = this.board.transform;
+				GameObject tileClone = (GameObject)Instantiate (tile, position, inventory.draggedTile.gameObject.transform.rotation);
+				tileClone.transform.parent = Board.board.transform;
 				tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
 				inventory.draggingTile = false;
 				tileClone.tag = tag;
@@ -102,9 +121,11 @@ public class GameController : MonoBehaviour
 		{
 				GameObject go = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 				string cloneString = go.transform.name;
-				GameObject tile = Resources.Load<GameObject> ("Tiles/Prefabs/" + cloneString.Replace ("(Clone)", ""));
-				tile.transform.rotation = go.transform.rotation;			
-				inventory.inventory [inventory.prevIdx] = new Tile (tile);
+				GameObject newTile = new GameObject ();
+				newTile.transform.rotation = go.transform.rotation;
+				Tile tile = newTile.AddComponent<Tile> ();
+				tile.SetUpTile (Tile.getTileType (cloneString.Replace ("(Clone)", "")));
+				inventory.inventory [inventory.prevIdx] = tile;
 				Destroy (go);
 		}
 

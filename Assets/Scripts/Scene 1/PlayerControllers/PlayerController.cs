@@ -25,7 +25,6 @@ public abstract class PlayerController : MonoBehaviour
 		public Vector2 respawnPosition;
 		public Vector3 startDirection;
 		new string name;
-
  
 		public void Start ()
 		{

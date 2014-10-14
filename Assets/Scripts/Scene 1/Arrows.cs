@@ -8,6 +8,18 @@ public class Arrows : MonoBehaviour
 		public int size_z = 12;
 		public float tileSize = 100.0f;
 		private GameObject sword;
+		public static Arrows arrows;
+	
+		void Awake ()
+		{
+				if (arrows == null) {
+						DontDestroyOnLoad (arrows);
+						arrows = this;
+				} else if (arrows != this) {
+						Destroy (gameObject);
+				}
+		}
+
 	
 		enum Direction
 		{
@@ -20,6 +32,7 @@ public class Arrows : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
+				DontDestroyOnLoad (gameObject);
 				sword = Resources.Load<GameObject> ("Arrows/sword");
 				SpriteRenderer renderer = sword.GetComponent<SpriteRenderer> ();
 				renderer.sortingLayerID = 5;

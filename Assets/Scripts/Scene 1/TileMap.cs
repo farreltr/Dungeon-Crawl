@@ -24,6 +24,7 @@ public class TileMap : MonoBehaviour
 
 		void Start ()
 		{
+				DontDestroyOnLoad (gameObject);
 				BuildMesh ();
 		}
 	

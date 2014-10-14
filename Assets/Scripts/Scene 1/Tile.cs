@@ -3,21 +3,20 @@ using System.Collections;
 
 
 [System.Serializable]
-public class Tile : Object
+public class Tile : MonoBehaviour
 {
-
-		new public string name;
-		public int ID;
-		public Texture2D icon;
-		public TileType type;
-		public Sprite sprite;
-		public Quaternion rotation;
-		public GameObject go;
+		public TileType type = TileType.Empty;
 		private static Vector3 ZERO_ANGLE = new Vector3 (0.0f, 0.0f, 0.0f);
 		//private static Vector3 NINETY_ANGLE = new Vector3 (0.0f, 0.0f, 90.0f);
 		//private static Vector3 ONE_EIGHTY_ANGLE = new Vector3 (0.0f, 0.0f, 180.0f);
 		private static Vector3 TWO_SEVENTY_ANGLE = new Vector3 (0.0f, 0.0f, 270.0f);
 		//private static Vector3 THREE_SIXTY_ANGLE = new Vector3 (0.0f, 0.0f, 360.0f);
+		
+		void Start ()
+		{
+				DontDestroyOnLoad (gameObject);
+		}
+
 
 		public enum TileType
 		{
@@ -65,26 +64,6 @@ public class Tile : Object
 				}
 		}
 
-		public Tile (GameObject go)
-		{
-				this.go = go;
-				this.name = go.name;
-				this.sprite = go.GetComponent<SpriteRenderer> ().sprite;
-				this.icon = this.sprite.texture;
-				this.type = getTileType (sprite.name);
-				//this.rotation = Quaternion.Euler (go.transform.localEulerAngles);
-				this.rotation = go.transform.rotation;
-					
-		} 
-
-
-	
-		public Tile ()
-		{
-				this.type = TileType.Empty;
-
-		}
-
 
 		public bool isEmpty ()
 		{
@@ -98,33 +77,33 @@ public class Tile : Object
 
 		string getRotationString ()
 		{
-				int rot = Mathf.FloorToInt (this.rotation.eulerAngles.z);
+				int rot = Mathf.FloorToInt (gameObject.transform.rotation.eulerAngles.z);
 				return string.Concat (rot, "-degree-rotation");
 		}
 
 		public void RotateLeft ()
 		{
-				if (rotation.eulerAngles == TWO_SEVENTY_ANGLE) {
-						this.rotation = Quaternion.Euler (ZERO_ANGLE);
+				if (gameObject.transform.rotation.eulerAngles == TWO_SEVENTY_ANGLE) {
+						gameObject.transform.rotation = Quaternion.Euler (ZERO_ANGLE);
 				} else {
-						this.rotation = Quaternion.Euler (new Vector3 (rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z + 90));
+						gameObject.transform.rotation = Quaternion.Euler (new Vector3 (gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, gameObject.transform.eulerAngles.z + 90));
 				}
 
 		}
 
 		public void RotateRight ()
 		{
-				if (rotation.eulerAngles == ZERO_ANGLE) {
-						this.rotation = Quaternion.Euler (TWO_SEVENTY_ANGLE);
+				if (gameObject.transform.eulerAngles == ZERO_ANGLE) {
+						gameObject.transform.rotation = Quaternion.Euler (TWO_SEVENTY_ANGLE);
 				} else {
-						this.rotation = Quaternion.Euler (new Vector3 (rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z - 90));
+						gameObject.transform.rotation = Quaternion.Euler (new Vector3 (gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, gameObject.transform.eulerAngles.z - 90));
 				}
 
 		}
 
-		public static Tile CreateNewTile (TileType tileType)
+		public void SetUpTile (TileType tileType)
 		{
-				GameObject tile = new GameObject ();
+				GameObject tile = this.gameObject;
 				SpriteRenderer spriteRenderer = tile.AddComponent<SpriteRenderer> ();
 				Rigidbody2D rigidbody = tile.AddComponent<Rigidbody2D> ();
 				rigidbody.mass = 10.0f;
@@ -139,6 +118,7 @@ public class Tile : Object
 				tile.name = getTileString (tileType);
 				spriteRenderer.sprite = Resources.Load <Sprite> ("Tiles/Sprites/0-degree-rotation/" + tile.name);
 				tile.transform.parent = GameObject.FindObjectOfType<Inventory> ().transform;
+				this.type = tileType;
 				
 				switch (tileType) {
 				case  TileType.Block:
@@ -222,7 +202,6 @@ public class Tile : Object
 			
 						break;
 				}
-				return new Tile (tile);
 		
 		}
 	

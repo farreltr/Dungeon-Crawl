@@ -23,6 +23,7 @@ public class Knights : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
+				DontDestroyOnLoad (gameObject);
 				GameObject[] knightPrefabs = Resources.LoadAll<GameObject> ("Knights/Prefabs/");
 				int i = 0;
 				knightArray = new PlayerController[knightPrefabs.Length];

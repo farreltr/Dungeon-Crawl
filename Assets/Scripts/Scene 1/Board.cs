@@ -4,10 +4,11 @@ using System.Collections;
 public class Board : MonoBehaviour
 {
 	
-		public int size_x = 10;
-		public int size_z = 10;
+		public int size_x = 8;
+		public int size_y = 8;
 		public float tileSize = 100.0f;
 		public static Board board;
+		public GameObject[] boardTiles;
 
 		void Awake ()
 		{
@@ -22,6 +23,7 @@ public class Board : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
+				DontDestroyOnLoad (gameObject);
 				BuildBoard ();
 		}
 	
@@ -36,9 +38,11 @@ public class Board : MonoBehaviour
 	
 		public void BuildBoard ()
 		{
-				GameObject[] tiles = Resources.LoadAll<GameObject> ("Tiles/Prefabs/");
+				GameObject[] tiles = Resources.LoadAll<GameObject> ("Tiles/Prefabs/"); 
+				boardTiles = new GameObject[size_x * size_y];
+				int i = 0;
 				for (int x=0; x < size_x; x++) {
-						for (int y=0; y < size_z; y++) {
+						for (int y=0; y < size_y; y++) {
 								Vector3 position = new Vector3 (x * tileSize + (tileSize * 1.5f), y * tileSize + (tileSize * 1.5f), 0);
 								GameObject tile = tiles [Random.Range (0, tiles.Length)];
 								Quaternion rotation = Quaternion.Euler (0, 0, 90 * (Random.Range (0, 4)));
@@ -46,7 +50,8 @@ public class Board : MonoBehaviour
 								GameObject tileClone = (GameObject)Instantiate (tile, position, rotation);
 								tileClone.transform.parent = this.gameObject.transform;
 								tileClone.transform.GetComponent<SpriteRenderer> ().sortingLayerName = "Board Tile";
-		
+								boardTiles [i] = tileClone;
+								i++;
 						}
 				}
 		}
@@ -79,7 +84,7 @@ public class Board : MonoBehaviour
 	
 		public void shiftDown (int x)
 		{
-				for (int y=1; y<board.size_z; y++) {
+				for (int y=1; y<board.size_y; y++) {
 						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 						Vector3 position = tile.transform.position;
 						tile.transform.position = new Vector3 (position.x, position.y - TileMap.tileMap.tileSize, position.z);
@@ -92,7 +97,7 @@ public class Board : MonoBehaviour
 	
 		public void shiftUp (int x)
 		{
-				for (int y=board.size_z -2; y>-1; y--) {
+				for (int y=board.size_y -2; y>-1; y--) {
 						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 						Vector3 position = tile.transform.position;
 						tile.transform.position = new Vector3 (position.x, position.y + TileMap.tileMap.tileSize, position.z);

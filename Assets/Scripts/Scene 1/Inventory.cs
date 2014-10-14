@@ -9,13 +9,8 @@ public class Inventory : MonoBehaviour
 		private TileDB database;
 		public int slotsX, slotsY;
 		private bool showInventory;
-		public GUISkin skin;
-		public Vector2 position;
-	
-		public Vector3 currentTileCoord;
-	
-		public static string EMPTY_STRING = "";
-	
+		public GUISkin skin;	
+		private static string EMPTY_STRING = "";	
 		public bool showToolTip;
 		public string tooltip;
 		public bool draggingTile;
@@ -26,16 +21,16 @@ public class Inventory : MonoBehaviour
 		private float tileHeight = 37.0f;
 		private bool disabled = false;
 		private bool displayLabel = false;
-	
+
 		// Use this for initialization
 		void Start ()
 		{
 				for (int i=0; i<(slotsX*slotsY); i++) {
-						slots.Add (new Tile ());
-						inventory.Add (new Tile ());
+						slots.Add (null);
+						inventory.Add (null);
 			
 				}
-				database = GameObject.FindGameObjectWithTag ("Tile Database").GetComponent<TileDB> ();
+				database = TileDB.tileDB;
 				for (int i = 0; i<inventory.Count; i++) {
 						int tileId = Random.Range (0, database.tiles.Count - 1);
 						AddTile (tileId);
@@ -44,12 +39,6 @@ public class Inventory : MonoBehaviour
 		
 		}
 
-//		GameObject CreateNewTile ()
-//		{
-//				GameObject tile = new GameObject ();
-//		}
-	
-		// Update is called once per frame
 		void Update ()
 		{
 		
@@ -83,7 +72,7 @@ public class Inventory : MonoBehaviour
 								Tile tile = slots [i];
 								tile = inventory [i];
 
-								if (tile != null || !tile.isEmpty ()) {
+								if (tile != null && !tile.isEmpty ()) {
 										if (GUI.Button (rotRightRect, EMPTY_STRING, skin.GetStyle ("Rotate Right"))) {
 												tile.RotateRight ();
 										}
@@ -95,7 +84,7 @@ public class Inventory : MonoBehaviour
 												if (e.button == 0 && e.type == EventType.mouseDrag && !draggingTile) {
 														draggingTile = true;
 														draggedTile = tile;
-														inventory [i] = new Tile ();
+														inventory [i] = null;
 														prevIdx = i;
 												}
 												if (e.type == EventType.mouseUp && draggingTile) {
@@ -113,16 +102,6 @@ public class Inventory : MonoBehaviour
 														//highlight box
 												}
 										}
-					
-								} else {
-										if (currentTileCoord.x == 0 && currentTileCoord.y == 1) {
-												if (e.type == EventType.mouseUp && draggingTile) {
-														Debug.Log ("reached here");
-							
-												}
-						
-										}
-					
 								}
 				
 								if (slotRect.Contains (e.mousePosition)) {
@@ -157,21 +136,23 @@ public class Inventory : MonoBehaviour
 		{
 		
 				for (int i=0; i<inventory.Count; i++) {
-						if (inventory [i].isEmpty ()) {	
-								Tile DBTile = database.tiles [id];
-								if (inventory.Contains (DBTile)) {
-										Tile cloneTile = Tile.CreateNewTile (DBTile.type);
-										inventory [i] = cloneTile;
-								} else {
-										inventory [i] = database.tiles [id];
-								}
+						if (inventory [i] == null || inventory [i].isEmpty ()) {	
+								GameObject DBTile = database.tiles [id];
+								//if (inventory.Contains (DBTile)) {
+								GameObject newTile = new GameObject ();
+								Tile tile = newTile.AddComponent<Tile> ();
+								tile.SetUpTile (Tile.getTileType (DBTile.name));
+								inventory [i] = tile;
+								//} else {
+								//	inventory [i] = database.tiles [id];
+								//}
 								
-								for (int j=0; j<database.tiles.Count; j++) {
-										if (database.tiles [j].ID == id) {
-												inventory [i] = database.tiles [j];
-										}
-					
-								}
+//								for (int j=0; j<database.tiles.Count; j++) {
+//										if (database.tiles [j].ID == id) {
+//												inventory [i] = database.tiles [j];
+//										}
+//					
+//								}
 								break;
 						}
 				}
@@ -184,26 +165,13 @@ public class Inventory : MonoBehaviour
 
 		}
 	
-	
-		void RemoveTile (int id)
-		{
-		
-				for (int i=0; i<inventory.Count; i++) {
-						if (inventory [i].ID == id) {
-								inventory [i] = new Tile ();
-								break;
-						}
-				}
-		
-		}
-	
-		bool InventoryContains (int id)
-		{
-				for (int i=0; i<inventory.Count; i++) {
-						if (inventory [i].ID == id) {
-								return true;
-						}
-				}
-				return false;
-		}
+//		bool InventoryContains (int id)
+//		{
+//				for (int i=0; i<inventory.Count; i++) {
+//						if (inventory [i].ID == id) {
+//								return true;
+//						}
+//				}
+//				return false;
+//		}
 }
