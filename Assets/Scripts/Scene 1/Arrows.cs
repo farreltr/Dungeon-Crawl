@@ -3,10 +3,6 @@ using System.Collections;
 
 public class Arrows : MonoBehaviour
 {
-	
-		public int size_x = 12;
-		public int size_z = 12;
-		public float tileSize = 100.0f;
 		private GameObject sword;
 		public static Arrows arrows;
 	
@@ -46,8 +42,8 @@ public class Arrows : MonoBehaviour
 		void RightArrows ()
 		{
 				//Arrows pointing right
-				for (int y = 1; y < size_z - 1; y++) {
-						Vector3 position = new Vector3 (tileSize * 0.5f, y * tileSize + (tileSize * 0.5f), 0);
+				for (int y = 1; y < TileMap.size_y - 1; y++) {
+						Vector3 position = new Vector3 (TileMap.tileSize * 0.5f, y * TileMap.tileSize + (TileMap.tileSize * 0.5f), 0);
 						Quaternion rotation = Quaternion.Euler (0, 0, 270);
 						GameObject swordClone = (GameObject)Instantiate (sword, position, rotation);
 						swordClone.transform.tag = "Right Arrow";
@@ -60,8 +56,8 @@ public class Arrows : MonoBehaviour
 		void LeftArrows ()
 		{
 				//Arrows pointing right
-				for (int y = 1; y < size_z - 1; y++) {
-						Vector3 position = new Vector3 ((size_x - 1) * tileSize + (tileSize * 0.5f), y * tileSize + (tileSize * 0.5f), 0);
+				for (int y = 1; y < TileMap.size_y - 1; y++) {
+						Vector3 position = new Vector3 ((TileMap.size_x - 1) * TileMap.tileSize + (TileMap.tileSize * 0.5f), y * TileMap.tileSize + (TileMap.tileSize * 0.5f), 0);
 						Quaternion rotation = Quaternion.Euler (0, 0, 90);
 						GameObject swordClone = (GameObject)Instantiate (sword, position, rotation);
 						swordClone.transform.tag = "Left Arrow";
@@ -74,8 +70,8 @@ public class Arrows : MonoBehaviour
 		void UpArrows ()
 		{
 				//Arrows pointing right
-				for (int x = 1; x < size_x - 1; x++) {
-						Vector3 position = new Vector3 (x * tileSize + tileSize * 0.5f, 0 * tileSize + (tileSize * 0.5f), 0);
+				for (int x = 1; x <  TileMap.size_x - 1; x++) {
+						Vector3 position = new Vector3 (x * TileMap.tileSize + TileMap.tileSize * 0.5f, 0 * TileMap.tileSize + (TileMap.tileSize * 0.5f), 0);
 						Quaternion rotation = Quaternion.Euler (0, 0, 0);
 						GameObject swordClone = (GameObject)Instantiate (sword, position, rotation);
 						swordClone.transform.tag = "Up Arrow";
@@ -88,8 +84,8 @@ public class Arrows : MonoBehaviour
 		void DownArrows ()
 		{
 				//Arrows pointing right
-				for (int x = 1; x < size_x - 1; x++) {
-						Vector3 position = new Vector3 (x * tileSize + tileSize * 0.5f, (size_z - 1) * tileSize + (tileSize * 0.5f), 0);
+				for (int x = 1; x <  TileMap.size_x - 1; x++) {
+						Vector3 position = new Vector3 (x * TileMap.tileSize + TileMap.tileSize * 0.5f, (TileMap.size_y - 1) * TileMap.tileSize + (TileMap.tileSize * 0.5f), 0);
 						Quaternion rotation = Quaternion.Euler (0, 0, 180);
 						GameObject swordClone = (GameObject)Instantiate (sword, position, rotation);
 						swordClone.transform.tag = "Right Arrow";

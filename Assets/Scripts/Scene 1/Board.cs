@@ -3,10 +3,6 @@ using System.Collections;
 
 public class Board : MonoBehaviour
 {
-	
-		public int size_x = 8;
-		public int size_y = 8;
-		public float tileSize = 100.0f;
 		public static Board board;
 		public GameObject[] boardTiles;
 
@@ -39,11 +35,11 @@ public class Board : MonoBehaviour
 		public void BuildBoard ()
 		{
 				GameObject[] tiles = Resources.LoadAll<GameObject> ("Tiles/Prefabs/"); 
-				boardTiles = new GameObject[size_x * size_y];
+				boardTiles = new GameObject[ (TileMap.size_x - 2) * (TileMap.size_y - 2)];
 				int i = 0;
-				for (int x=0; x < size_x; x++) {
-						for (int y=0; y < size_y; y++) {
-								Vector3 position = new Vector3 (x * tileSize + (tileSize * 1.5f), y * tileSize + (tileSize * 1.5f), 0);
+				for (int x=0; x < TileMap.size_x - 2; x++) {
+						for (int y=0; y < TileMap.size_y - 2; y++) {
+								Vector3 position = new Vector3 (x * TileMap.tileSize + (TileMap.tileSize * 1.5f), y * TileMap.tileSize + (TileMap.tileSize * 1.5f), 0);
 								GameObject tile = tiles [Random.Range (0, tiles.Length)];
 								Quaternion rotation = Quaternion.Euler (0, 0, 90 * (Random.Range (0, 4)));
 								tile.tag = string.Concat (x.ToString (), y.ToString ());
@@ -58,10 +54,10 @@ public class Board : MonoBehaviour
 
 		public void shiftRight (int y)
 		{
-				for (int x=board.size_x-2; x>-1; x--) {
+				for (int x=TileMap.size_x-4; x>-1; x--) {
 						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x + TileMap.tileMap.tileSize, position.y, position.z);
+						tile.transform.position = new Vector3 (position.x + TileMap.tileSize, position.y, position.z);
 						tile.tag = string.Concat (x + 1, y);
 			
 				}
@@ -71,10 +67,10 @@ public class Board : MonoBehaviour
 	
 		public void shiftLeft (int y)
 		{
-				for (int x=1; x<board.size_x; x++) {
+				for (int x=1; x<TileMap.size_x-2; x++) {
 						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x - TileMap.tileMap.tileSize, position.y, position.z);
+						tile.transform.position = new Vector3 (position.x - TileMap.tileSize, position.y, position.z);
 						tile.tag = string.Concat (x - 1, y);
 			
 				}
@@ -84,10 +80,10 @@ public class Board : MonoBehaviour
 	
 		public void shiftDown (int x)
 		{
-				for (int y=1; y<board.size_y; y++) {
+				for (int y=1; y<TileMap.size_y-2; y++) {
 						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x, position.y - TileMap.tileMap.tileSize, position.z);
+						tile.transform.position = new Vector3 (position.x, position.y - TileMap.tileSize, position.z);
 						tile.tag = string.Concat (x, y - 1);
 			
 				}
@@ -97,10 +93,10 @@ public class Board : MonoBehaviour
 	
 		public void shiftUp (int x)
 		{
-				for (int y=board.size_y -2; y>-1; y--) {
+				for (int y=TileMap.size_y -4; y>-1; y--) {
 						GameObject tile = GameObject.FindGameObjectWithTag (string.Concat (x, y));
 						Vector3 position = tile.transform.position;
-						tile.transform.position = new Vector3 (position.x, position.y + TileMap.tileMap.tileSize, position.z);
+						tile.transform.position = new Vector3 (position.x, position.y + TileMap.tileSize, position.z);
 						tile.tag = string.Concat (x, y + 1);
 			
 				}
@@ -110,25 +106,25 @@ public class Board : MonoBehaviour
 	
 		public bool isRight (int x, int y)
 		{
-				return (x == TileMap.tileMap.size_x - 1 && y != 0 && y != TileMap.tileMap.size_y - 1);
+				return (x == TileMap.size_x - 1 && y != 0 && y != TileMap.size_y - 1);
 		
 		}
 	
 		public bool isLeft (int x, int y)
 		{
-				return (x == 0 && y != 0 && y != TileMap.tileMap.size_y - 1);
+				return (x == 0 && y != 0 && y != TileMap.size_y - 1);
 		
 		}
 	
 		public bool isTop (int x, int y)
 		{
-				return (y == TileMap.tileMap.size_y - 1 && x != 0 && x != TileMap.tileMap.size_x - 1);
+				return (y == TileMap.size_y - 1 && x != 0 && x != TileMap.size_x - 1);
 		
 		}
 	
 		public bool isBottom (int x, int y)
 		{
-				return (y == 0 && x != 0 && x != TileMap.tileMap.size_x - 1);
+				return (y == 0 && x != 0 && x != TileMap.size_x - 1);
 		
 		}
 

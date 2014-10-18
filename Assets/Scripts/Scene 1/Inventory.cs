@@ -24,6 +24,7 @@ public class Inventory : MonoBehaviour
 		private float tileHeight = 37.0f;
 		private bool disabled = false;
 		private bool displayLabel = false;
+		public bool isRestart;
 
 		// Use this for initialization
 		void Start ()
@@ -45,10 +46,13 @@ public class Inventory : MonoBehaviour
 	
 		void OnGUI ()
 		{
+
+				GUI.skin = skin;
+
 				if (!disabled) {
 						DrawInventory ();
-				} else {						
-						GUI.Label (new Rect (Screen.width / 2, Screen.height / 1.4f, 100, 100), "HIT 'R' TO RESTART");
+				} else {	
+						isRestart = GUI.Button (new Rect (Screen.width / 2, Screen.height / 2, 128, 128), EMPTY_STRING);
 				}
 		}
 

@@ -41,7 +41,10 @@ public class Knights : MonoBehaviour
 						PlayerController playerController = s.GetComponent<PlayerController> () == null ? 
 							s.AddComponent<PlayerController> () : 
 								s.GetComponent<PlayerController> ();
-						playerController.speed = SPEED;
+						PlayerController.SPEED = SPEED;
+						AudioSource audio = s.AddComponent<AudioSource> ();
+						audio.clip = Resources.Load<AudioClip> ("Audio/pop_sound");
+						audio.playOnAwake = false;
 						knightArray [i] = playerController;
 						i++;
 				}

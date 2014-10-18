@@ -1,8 +1,11 @@
 using UnityEngine;
+using System.Collections;
 
 public abstract class PlayerController : MonoBehaviour
 {
-		public Vector2 speed = new Vector2 (20, 20);
+		public Vector2 speed;
+		public static Vector2 SPEED = new Vector2 (40, 40);
+		public static Vector2 STOPPED = new Vector2 (0, 0);
 		public Vector2 direction;	
 		private Animator animator;
 		private TileMap tileMap;	
@@ -32,15 +35,16 @@ public abstract class PlayerController : MonoBehaviour
 				SetUpBoundaries ();
 				direction = startDirection;
 				this.transform.position = respawnPosition;
+				this.speed = SPEED;
 		}
 
 		void SetUpBoundaries ()
 		{
 				tileMap = GameObject.FindGameObjectWithTag ("Tile Map").GetComponent<TileMap> ();
-				minX = tileMap.transform.position.x + tileMap.tileSize + boundary;
-				maxX = tileMap.transform.position.x + (tileMap.size_x - 1) * tileMap.tileSize - boundary;
-				minY = tileMap.transform.position.y + tileMap.tileSize + boundary;
-				maxY = tileMap.transform.position.y + (tileMap.size_y - 1) * tileMap.tileSize - boundary;
+				minX = tileMap.transform.position.x + TileMap.tileSize + boundary;
+				maxX = tileMap.transform.position.x + (TileMap.size_x - 1) * TileMap.tileSize - boundary;
+				minY = tileMap.transform.position.y + TileMap.tileSize + boundary;
+				maxY = tileMap.transform.position.y + (TileMap.size_y - 1) * TileMap.tileSize - boundary;
 		}
  
 		// Update is called once per frame
@@ -51,11 +55,11 @@ public abstract class PlayerController : MonoBehaviour
 				transform.Translate (movement);
 				SetDirection ();
 				bool isOutOfBounds = IsOutOfbounds ();
-				if (isRespawn) {
-						animator.enabled = false;
-				} else {
-						animator.enabled = true;
-				}
+//				if (isRespawn) {
+//						animator.enabled = false;
+//				} else {
+//						animator.enabled = true;
+//				}
 				if (!isOutOfBounds) {
 						isRespawn = false;
 				}
@@ -206,27 +210,42 @@ public abstract class PlayerController : MonoBehaviour
 
 		public bool checkRespawn (int x, int y)
 		{
-				int x_idx = Mathf.FloorToInt (GetPosition ().x / tileMap.tileSize) - 1;
-				int y_idx = Mathf.FloorToInt (GetPosition ().y / tileMap.tileSize) - 1;
+				int x_idx = Mathf.FloorToInt (GetPosition ().x / TileMap.tileSize) - 1;
+				int y_idx = Mathf.FloorToInt (GetPosition ().y / TileMap.tileSize) - 1;
 				return x == x_idx && y == y_idx;
 		}
 
 		public bool isOnRow (int y)
 		{
-				return y.Equals (Mathf.FloorToInt (GetPosition ().y / tileMap.tileSize));
+				return y.Equals (Mathf.FloorToInt (GetPosition ().y / TileMap.tileSize));
 		}
 
 		public bool isOnColumn (int x)
-		{
-				return x.Equals (Mathf.FloorToInt (GetPosition ().x / tileMap.tileSize));
+		{ 	
+				return x.Equals (Mathf.FloorToInt (GetPosition ().x / TileMap.tileSize));
 		}
 	
-		public void respawn ()
+		void respawn ()
 		{
+				speed = STOPPED;
+				gameObject.GetComponent<BoxCollider2D> ().enabled = false;
+				animator.SetBool ("pop", true);
+				gameObject.audio.Play ();	
+				StartCoroutine ("Wait");
+
+		}
+
+		IEnumerator Wait ()
+		{
+				yield return new WaitForSeconds (2);				
 				this.transform.position = respawnPosition;
+				animator.SetBool ("pop", false);
 				direction = startDirection;
+				speed = SPEED;
+				gameObject.GetComponent<BoxCollider2D> ().enabled = true;
 				transform.Translate (direction);
 				isRespawn = true;
+
 		}
 
 		public abstract Vector3 GetRespawnPosition ();

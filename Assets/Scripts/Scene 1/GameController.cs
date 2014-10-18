@@ -3,12 +3,13 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
-		Inventory inventory;
-		Vector3 currentTileCoord;	
+		public Inventory inventory;
+		public Vector3 currentTileCoord;	
 		private bool restart;
 		private bool gameOver;
 		private static string EMPTY_STRING = "";
-		private static int nextPlayer = 2;
+		private static int nextPlayer = 1;
+		public int numberOfPLayers = 1;
 
 		public static GameController controller;
 	
@@ -48,8 +49,8 @@ public class GameController : MonoBehaviour
 						inventory = GameObject.FindObjectOfType<Inventory> ();
 		
 						if (TileMap.tileMap.collider.Raycast (ray, out hitInfo, Mathf.Infinity)) {
-								int x = Mathf.FloorToInt (hitInfo.point.x / TileMap.tileMap.tileSize);
-								int y = Mathf.FloorToInt (hitInfo.point.y / TileMap.tileMap.tileSize);
+								int x = Mathf.FloorToInt (hitInfo.point.x / TileMap.tileSize);
+								int y = Mathf.FloorToInt (hitInfo.point.y / TileMap.tileSize);
 								//Debug.Log ("Tile: " + x + ", " + y);
 			
 								currentTileCoord.x = x;
@@ -59,28 +60,28 @@ public class GameController : MonoBehaviour
 
 								if (inventory.e != null && inventory.e.type == EventType.mouseUp && inventory.draggingTile) {
 										if (Board.board.isLeft (x, y)) {
-												putTileBackInHand (x + Board.board.size_x - 1, y - 1);
-												Knights.knights.ShiftKnightsRight (x + Board.board.size_x - 1, y - 1);
+												putTileBackInHand (x + (TileMap.size_x - 2) - 1, y - 1);
+												Knights.knights.ShiftKnightsRight (x + (TileMap.size_x - 2) - 1, y - 1);
 												Board.board.shiftRight (y - 1);
-												InstantiateDraggedTile (new Vector3 (TileMap.tileMap.tileSize * (x + 1.5f), TileMap.tileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x, y - 1));											
+												InstantiateDraggedTile (new Vector3 (TileMap.tileSize * (x + 1.5f), TileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x, y - 1));											
 												GoToNextPlayer ();
 										} else if (Board.board.isRight (x, y)) {
-												putTileBackInHand (x - Board.board.size_x - 1, y - 1);
-												Knights.knights.ShiftKnightsLeft (x - Board.board.size_x - 1, y - 1);			
+												putTileBackInHand (x - (TileMap.size_x - 2) - 1, y - 1);
+												Knights.knights.ShiftKnightsLeft (x - (TileMap.size_x - 2) - 1, y - 1);			
 												Board.board.shiftLeft (y - 1);											
-												InstantiateDraggedTile (new Vector3 (TileMap.tileMap.tileSize * (x - 0.5f), TileMap.tileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x - 2, y - 1));
+												InstantiateDraggedTile (new Vector3 (TileMap.tileSize * (x - 0.5f), TileMap.tileSize * (y + 0.5f), 0.5f), string.Concat (x - 2, y - 1));
 												GoToNextPlayer ();
 										} else if (Board.board.isTop (x, y)) {
-												putTileBackInHand (x - 1, y - Board.board.size_y - 1);
-												Knights.knights.ShiftKnightsDown (x - 1, y - Board.board.size_y - 1);
+												putTileBackInHand (x - 1, y - (TileMap.size_y - 2) - 1);
+												Knights.knights.ShiftKnightsDown (x - 1, y - (TileMap.size_y - 2) - 1);
 												Board.board.shiftDown (x - 1);											
-												InstantiateDraggedTile (new Vector3 (TileMap.tileMap.tileSize * (x + 0.5f), TileMap.tileMap.tileSize * (y - 0.5f), 0.5f), string.Concat (x - 1, y - 2));
+												InstantiateDraggedTile (new Vector3 (TileMap.tileSize * (x + 0.5f), TileMap.tileSize * (y - 0.5f), 0.5f), string.Concat (x - 1, y - 2));
 												GoToNextPlayer ();
 										} else if (Board.board.isBottom (x, y)) {
-												putTileBackInHand (x - 1, y + Board.board.size_y - 1);
-												Knights.knights.ShiftKnightsUp (x - 1, y + Board.board.size_y - 1);
+												putTileBackInHand (x - 1, y + (TileMap.size_y - 2) - 1);
+												Knights.knights.ShiftKnightsUp (x - 1, y + (TileMap.size_y - 2) - 1);
 												Board.board.shiftUp (x - 1);
-												InstantiateDraggedTile (new Vector3 (TileMap.tileMap.tileSize * (x + 0.5f), TileMap.tileMap.tileSize * (y + 1.5f), 0.5f), string.Concat (x - 1, y));								
+												InstantiateDraggedTile (new Vector3 (TileMap.tileSize * (x + 0.5f), TileMap.tileSize * (y + 1.5f), 0.5f), string.Concat (x - 1, y));								
 												GoToNextPlayer ();
 										} 								
 								}
@@ -90,11 +91,11 @@ public class GameController : MonoBehaviour
 
 		void GoToNextPlayer ()
 		{
-				Application.LoadLevel (nextPlayer);
 				nextPlayer++;
-				if (nextPlayer == 5) {
+				if (nextPlayer == numberOfPLayers + 1) {
 						nextPlayer = 1;
 				}
+				Application.LoadLevel (nextPlayer);
 				inventory.Save ();
 
 		}
@@ -111,10 +112,8 @@ public class GameController : MonoBehaviour
 
 		void CheckRestart ()
 		{
-				if (restart) {
-						if (Input.GetKeyDown (KeyCode.R)) {
-								Application.LoadLevel (Application.loadedLevel);
-						}
+				if (restart && inventory.isRestart) {
+						Application.LoadLevel (Application.loadedLevel);
 				}
 		}
 
@@ -143,7 +142,7 @@ public class GameController : MonoBehaviour
 								if (controller.isWinner) {
 										//gameOverText.text = controller.GetName () + " wins!";
 										Instantiate (Resources.Load<GUITexture> ("End Screens/" + controller.GetName ()));
-										GameObject.FindGameObjectWithTag ("Inventory").GetComponent<Inventory> ().SetDisabled ();									
+										GameObject.FindObjectOfType<Inventory> ().SetDisabled ();							
 
 								}
 						}

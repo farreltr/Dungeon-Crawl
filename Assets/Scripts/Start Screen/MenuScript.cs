@@ -16,7 +16,7 @@ public class MenuScript : MonoBehaviour
 
 		void OnGUI ()
 		{
-				const int buttonWidth = 256;
+				const int buttonWidth = 128;
 				const int buttonHeight = 128;
 				GUI.skin = skin;
 				float buttonX = 4 * Screen.width / 7 - (buttonWidth / 2);

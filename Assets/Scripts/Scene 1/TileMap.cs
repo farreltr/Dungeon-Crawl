@@ -7,9 +7,9 @@ using System.Collections;
 public class TileMap : MonoBehaviour
 {
 	
-		public int size_x = 10;
-		public int size_y = 10;
-		public float tileSize = 100.0f;
+		public static int size_x = 10;
+		public static int size_y = 10;
+		public static float tileSize = 100.0f;
 		public static TileMap tileMap;
 
 		void Awake ()
