@@ -26,6 +26,7 @@ public class Stairs : MonoBehaviour
 						s.transform.parent = this.transform;
 
 						SpriteRenderer renderer = s.GetComponent<SpriteRenderer> ();
+						renderer.enabled = false;
 						renderer.sortingLayerID = 6;
 						renderer.sortingOrder = 0;
 

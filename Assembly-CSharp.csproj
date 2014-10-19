@@ -49,9 +49,11 @@
      <Compile Include="Assets\Scripts\Scene 1\ApplicationData.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Arrows.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Board.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\Castles.cs" />
      <Compile Include="Assets\Scripts\Scene 1\CurveCollider.cs" />
      <Compile Include="Assets\Scripts\Scene 1\GameControl.cs" />
      <Compile Include="Assets\Scripts\Scene 1\GameController.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\Grid.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Inventory.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Knights.cs" />
      <Compile Include="Assets\Scripts\Scene 1\PlayerControllers\BlueController.cs" />

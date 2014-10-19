@@ -49,8 +49,9 @@ public class Board : MonoBehaviour
 								boardTiles [i] = tileClone;
 								i++;
 						}
-				}
+				}  
 		}
+
 
 		public void shiftRight (int y)
 		{

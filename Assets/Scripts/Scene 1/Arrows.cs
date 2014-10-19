@@ -29,7 +29,7 @@ public class Arrows : MonoBehaviour
 		void Start ()
 		{
 				DontDestroyOnLoad (gameObject);
-				sword = Resources.Load<GameObject> ("Arrows/sword");
+				sword = Resources.Load<GameObject> ("Arrows/arrow");
 				SpriteRenderer renderer = sword.GetComponent<SpriteRenderer> ();
 				renderer.sortingLayerID = 5;
 				renderer.sortingOrder = 5;
