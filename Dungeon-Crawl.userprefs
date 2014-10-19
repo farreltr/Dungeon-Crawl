@@ -1,25 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Scene 1\GameController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs" Line="256" Column="41" />
+      <File FileName="Assets\Scripts\Scene 1\GameController.cs" Line="51" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\Stairs.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs" Line="321" Column="2" />
       <File FileName="Assets\Scripts\Scene 1\Arrows.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\Tile.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\Board.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\GameController.cs" Line="76" Column="83" />
       <File FileName="Assets\Scripts\Scene 1\TileDB.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\PlayerControllers\BlueController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\StairsCollider.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Start Screen\MenuScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\Knights.cs" Line="67" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\Inventory.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\Knights.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Scene 1\Inventory.cs" Line="37" Column="9" />
       <File FileName="Assets\Scripts\Scene 1\TileMap.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Unity\Dungeon-Crawl\Assets\Scripts\Scene 1\Inventory.cs" line="186" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs" line="231" offsetX="448" offsetY="3680" expression="this.gameObject.animation" liveUpdate="False" />

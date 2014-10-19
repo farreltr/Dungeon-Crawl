@@ -32,18 +32,26 @@ public class Inventory : MonoBehaviour
 				slots = new Tile[slotsX * slotsY];
 				inventory = new Tile[slotsX * slotsY];
 				database = TileDB.tileDB;
-				for (int i = 0; i<inventory.Length; i++) {
-						int tileId = UnityEngine.Random.Range (0, database.tiles.Count - 1);
-						AddTile (tileId);				
-				}	
 				Load ();
+				if (IsEmpty ()) {
+						for (int i = 0; i<inventory.Length; i++) {
+								int tileId = UnityEngine.Random.Range (0, database.tiles.Count - 1);
+								AddTile (tileId);				
+						}	
+				}
+				
 		}
 
-		void Update ()
+		bool IsEmpty ()
 		{
-		
+				foreach (Tile tile in inventory) {
+						if (!tile.isEmpty ()) {
+								return false;
+						}
+				}	
+				return true;
 		}
-	
+
 		void OnGUI ()
 		{
 
@@ -126,7 +134,7 @@ public class Inventory : MonoBehaviour
 			
 				}
 				if (draggingTile) {
-						GUI.DrawTexture (new Rect (Event.current.mousePosition.x, Event.current.mousePosition.y, tileWidth, tileHeight), draggedTile.GetIcon ());
+						GUI.DrawTexture (new Rect (Event.current.mousePosition.x - tileWidth / 2, Event.current.mousePosition.y - tileHeight / 2, tileWidth, tileHeight), draggedTile.GetIcon ());
 				}
 		}
 	
@@ -141,18 +149,7 @@ public class Inventory : MonoBehaviour
 				for (int i=0; i<inventory.Length; i++) {
 						if (inventory [i] == null || inventory [i].isEmpty ()) {	
 								GameObject DBTile = database.tiles [id];
-								//if (inventory.Contains (DBTile)) {
 								inventory [i] = CreateTile (DBTile.name);
-								//} else {
-								//	inventory [i] = database.tiles [id];
-								//}
-								
-//								for (int j=0; j<database.tiles.Count; j++) {
-//										if (database.tiles [j].ID == id) {
-//												inventory [i] = database.tiles [j];
-//										}
-//					
-//								}
 								break;
 						}
 				}
