@@ -46,14 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Scene 1\ApplicationData.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Arrows.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Board.cs" />
-     <Compile Include="Assets\Scripts\Scene 1\Castles.cs" />
      <Compile Include="Assets\Scripts\Scene 1\CurveCollider.cs" />
-     <Compile Include="Assets\Scripts\Scene 1\GameControl.cs" />
      <Compile Include="Assets\Scripts\Scene 1\GameController.cs" />
-     <Compile Include="Assets\Scripts\Scene 1\Grid.cs" />
+     <Compile Include="Assets\Scripts\Scene 1\GameController2.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Inventory.cs" />
      <Compile Include="Assets\Scripts\Scene 1\Knights.cs" />
      <Compile Include="Assets\Scripts\Scene 1\PlayerControllers\BlueController.cs" />
@@ -67,6 +64,8 @@
      <Compile Include="Assets\Scripts\Scene 1\TileDB.cs" />
      <Compile Include="Assets\Scripts\Scene 1\TileMap.cs" />
      <Compile Include="Assets\Scripts\Start Screen\MenuScript.cs" />
+     <Compile Include="Assets\Scripts\networkController.cs" />
+     <Compile Include="Assets\Scripts\playerController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,13 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Scene 1\GameControl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Scene 1\GameController2.cs">
     <Files>
-      <File FileName="Assets\Scripts\Scene 1\GameController.cs" Line="49" Column="16" />
+      <File FileName="Assets\Scripts\Networking\NetworkManager.cs" Line="113" Column="29" />
+      <File FileName="Assets\Scripts\Scene 1\GameController2.cs" Line="4" Column="29" />
       <File FileName="Assets\Scripts\Scene 1\PlayerControllers\PlayerController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\Stairs.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\Arrows.cs" Line="19" Column="2" />
+      <File FileName="Assets\Scripts\Scene 1\Arrows.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\Tile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\Board.cs" Line="38" Column="27" />
+      <File FileName="Assets\Scripts\Scene 1\Board.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\TileDB.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\PlayerControllers\BlueController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\StairsCollider.cs" Line="1" Column="1" />
@@ -15,8 +16,6 @@
       <File FileName="Assets\Scripts\Scene 1\Knights.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\Inventory.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Scene 1\TileMap.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Scene 1\Grid.cs" Line="29" Column="42" />
-      <File FileName="Assets\Scripts\Scene 1\GameControl.cs" Line="16" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
